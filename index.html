@@ -711,6 +711,87 @@
       border-color: var(--cyan-primary);
     }
 
+    
+    /* Interactive Numerical Solvers & Algorithm Styles */
+    .calc-card {
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid var(--border-accent);
+      border-radius: 14px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+    .calc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .calc-input-group label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 5px;
+    }
+    .calc-input {
+      width: 100%;
+      background: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      padding: 8px 12px;
+      color: var(--cyan-primary);
+      font-family: var(--font-mono);
+      font-size: 13px;
+      outline: none;
+    }
+    .calc-input:focus { border-color: var(--cyan-primary); }
+    .calc-result-box {
+      background: rgba(2, 6, 23, 0.9);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      border-radius: 10px;
+      padding: 16px;
+      font-size: 13px;
+      color: #e2e8f0;
+      line-height: 1.6;
+    }
+    .code-algo-block {
+      background: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      padding: 16px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: #38bdf8;
+      overflow-x: auto;
+      line-height: 1.5;
+      margin: 12px 0;
+    }
+    .rubric-tag {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 2px 8px;
+      border-radius: 50px;
+      font-size: 10px;
+      font-weight: 700;
+      font-family: var(--font-mono);
+    }
+    .exam-section-title {
+      font-size: 15px;
+      font-weight: 800;
+      color: #f8fafc;
+      padding: 8px 14px;
+      background: rgba(30, 41, 59, 0.6);
+      border-left: 4px solid var(--cyan-primary);
+      border-radius: 0 8px 8px 0;
+      margin: 20px 0 14px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
     /* Footer */
     footer {
       background: rgba(10, 15, 30, 0.9);
@@ -761,10 +842,19 @@
       <span>🎮</span> Concept Mastery Games (4)
     </button>
     <button class="nav-btn" data-tab="quizzes" onclick="switchMainTab('quizzes')">
-      <span>🎯</span> Solution Quiz Arena (Step-by-Step)
+      <span>🎯</span> Solution Quiz Arena
+    </button>
+    <button class="nav-btn" data-tab="numerical" onclick="switchMainTab('numerical')">
+      <span>🧮</span> Numerical Solutions (7)
+    </button>
+    <button class="nav-btn" data-tab="algorithms" onclick="switchMainTab('algorithms')">
+      <span>⚙️</span> Algorithm Blueprints
+    </button>
+    <button class="nav-btn" data-tab="exam-key" onclick="switchMainTab('exam-key')">
+      <span>📝</span> Exam Model & Valuation Key
     </button>
     <button class="nav-btn" data-tab="viva" onclick="switchMainTab('viva')">
-      <span>👔</span> Course Viva & Examiner Defense
+      <span>👔</span> Course Viva & Defense
     </button>
     <button class="nav-btn" data-tab="syllabus" onclick="switchMainTab('syllabus')">
       <span>📋</span> KTU Syllabus & Course Map
@@ -1385,17 +1475,688 @@
       </div>
     </section>
 
+  
+    <!-- ========================================== -->
+    <!-- TAB: NUMERICAL SOLUTIONS & WORKED PROBLEMS -->
+    <!-- ========================================== -->
+    <section id="tab-numerical" class="tab-section">
+      <div class="hero-banner">
+        <div class="hero-content">
+          <h1>🧮 Numerical Problems & Worked-Out Solutions</h1>
+          <p>Master syllabus calculations with fully derived, step-by-step arithmetic, formula substitution, and live interactive calculators.</p>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-badge">
+            <div class="stat-num">7</div>
+            <div class="stat-lbl">Worked Problems</div>
+          </div>
+          <div class="stat-badge">
+            <div class="stat-num">2</div>
+            <div class="stat-lbl">Live Solvers</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LIVE INTERACTIVE SOLVER WIDGET -->
+      <div class="calc-card">
+        <h3 style="font-size:15px; color:var(--cyan-primary); margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+          <span>⚡</span> Live Interactive Bayes' Theorem Diagnostic Calculator
+        </h3>
+        <p style="font-size:12px; color:var(--text-muted); margin-bottom:14px;">
+          Enter custom priors and sensor accuracy values to observe step-by-step posterior probability calculations with denominator evidence expansion.
+        </p>
+        <div class="calc-grid">
+          <div class="calc-input-group">
+            <label>Prior P(Defect) [%]</label>
+            <input type="number" id="calc-in-prior" class="calc-input" value="2.5" step="0.1" min="0.01" max="100" oninput="runLiveBayesCalc()">
+          </div>
+          <div class="calc-input-group">
+            <label>Sensitivity P(+|Defect) [%]</label>
+            <input type="number" id="calc-in-sens" class="calc-input" value="92.0" step="0.5" min="1" max="100" oninput="runLiveBayesCalc()">
+          </div>
+          <div class="calc-input-group">
+            <label>False Positive Rate P(+|Normal) [%]</label>
+            <input type="number" id="calc-in-fpr" class="calc-input" value="4.0" step="0.5" min="0" max="100" oninput="runLiveBayesCalc()">
+          </div>
+        </div>
+        <div id="calc-bayes-output" class="calc-result-box"></div>
+      </div>
+
+      <!-- WORKED NUMERICAL PROBLEMS -->
+      <div style="display:flex; flex-direction:column; gap:20px;">
+
+        <!-- PROBLEM 1 -->
+        <div class="quiz-card">
+          <div class="quiz-meta">
+            <span class="quiz-tag">Module 1 • Perceptron Weight Update</span>
+            <span class="quiz-bloom">Bloom: Level 3 (Apply) • 6 Marks</span>
+          </div>
+          <div class="quiz-question">
+            <b>Numerical Problem 1:</b> A single-layer perceptron has current weight vector w = [0.3, -0.4]ᵀ and bias b = 0.2 with learning rate η = 0.2. Input sample x = [1, 2]ᵀ is presented with target label y = +1. Using Rosenblatt's threshold activation f(z) = +1 if z ≥ 0 else -1, calculate the net input z, error e, and the updated weights w' and bias b'.
+          </div>
+          <div class="solution-box visible">
+            <div class="solution-header">✓ Step-by-Step Numerical Working</div>
+            <div class="solution-text">
+              <b>Step 1: Compute Linear Net Input (z)</b><br>
+              <div class="math-formula">z = w₁x₁ + w₂x₂ + b = (0.3)(1) + (-0.4)(2) + 0.2 = 0.3 - 0.8 + 0.2 = -0.3</div>
+              <b>Step 2: Apply Threshold Activation Function</b><br>
+              Since z = -0.3 < 0, the perceptron output is: <b>ŷ = f(-0.3) = -1</b>.<br><br>
+              <b>Step 3: Compute Classification Error (e)</b><br>
+              <div class="math-formula">e = y - ŷ = (+1) - (-1) = +2  (Misclassified)</div>
+              <b>Step 4: Compute Weight Updates (Δw and Δb)</b><br>
+              Using Rosenblatt's rule: Δw = η · e · x and Δb = η · e<br>
+              <div class="math-formula">
+              Δw₁ = (0.2)(+2)(1) = +0.4<br>
+              Δw₂ = (0.2)(+2)(2) = +0.8<br>
+              Δb  = (0.2)(+2)    = +0.4
+              </div>
+              <b>Step 5: Compute Final Updated Weights and Bias</b><br>
+              <div class="math-formula">
+              w₁' = w₁ + Δw₁ = 0.3 + 0.4 = <b>+0.7</b><br>
+              w₂' = w₂ + Δw₂ = -0.4 + 0.8 = <b>+0.4</b><br>
+              b'  = b + Δb   = 0.2 + 0.4 = <b>+0.6</b>
+              </div>
+              <b>Verification:</b> New net input z' = (0.7)(1) + (0.4)(2) + 0.6 = 0.7 + 0.8 + 0.6 = +2.1 ≥ 0, which correctly yields ŷ = +1.
+            </div>
+          </div>
+        </div>
+
+        <!-- PROBLEM 2 -->
+        <div class="quiz-card">
+          <div class="quiz-meta">
+            <span class="quiz-tag">Module 2 • Matrix Eigenvalues & Eigenvectors</span>
+            <span class="quiz-bloom">Bloom: Level 4 (Analyze) • 8 Marks</span>
+          </div>
+          <div class="quiz-question">
+            <b>Numerical Problem 2:</b> Given the matrix A = [[4, 2], [1, 3]], determine all eigenvalues λ₁ and λ₂, and find the corresponding normalized eigenvectors v₁ and v₂.
+          </div>
+          <div class="solution-box visible">
+            <div class="solution-header">✓ Step-by-Step Numerical Working</div>
+            <div class="solution-text">
+              <b>Step 1: Set Up Characteristic Equation: det(A - λI) = 0</b><br>
+              <div class="math-formula">
+              det([[4 - λ, 2], [1, 3 - λ]]) = (4 - λ)(3 - λ) - (2)(1) = 0<br>
+              12 - 7λ + λ² - 2 = 0  =>  λ² - 7λ + 10 = 0<br>
+              (λ - 5)(λ - 2) = 0  =>  <b>λ₁ = 5, λ₂ = 2</b>
+              </div>
+              <b>Step 2: Find Eigenvector for λ₁ = 5</b><br>
+              Solve (A - 5I)v = 0:<br>
+              <div class="math-formula">
+              [[4 - 5, 2], [1, 3 - 5]] [[v₁], [v₂]] = [[-1, 2], [1, -2]] [[v₁], [v₂]] = [[0], [0]]<br>
+              Equation: -v₁ + 2v₂ = 0  =>  v₁ = 2v₂<br>
+              Let v₂ = 1  =>  v = [2, 1]ᵀ<br>
+              Normalized: ||v|| = √(2² + 1²) = √5  =>  <b>v̂₁ = [2/√5, 1/√5]ᵀ ≈ [0.894, 0.447]ᵀ</b>
+              </div>
+              <b>Step 3: Find Eigenvector for λ₂ = 2</b><br>
+              Solve (A - 2I)v = 0:<br>
+              <div class="math-formula">
+              [[4 - 2, 2], [1, 3 - 2]] [[v₁], [v₂]] = [[2, 2], [1, 1]] [[v₁], [v₂]] = [[0], [0]]<br>
+              Equation: v₁ + v₂ = 0  =>  v₁ = -v₂<br>
+              Let v₂ = 1  =>  v = [-1, 1]ᵀ<br>
+              Normalized: ||v|| = √((-1)² + 1²) = √2  =>  <b>v̂₂ = [-1/√2, 1/√2]ᵀ ≈ [-0.707, 0.707]ᵀ</b>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROBLEM 3 -->
+        <div class="quiz-card">
+          <div class="quiz-meta">
+            <span class="quiz-tag">Module 2 • Singular Value Decomposition (SVD)</span>
+            <span class="quiz-bloom">Bloom: Level 4 (Analyze) • 10 Marks</span>
+          </div>
+          <div class="quiz-question">
+            <b>Numerical Problem 3:</b> For the rectangular matrix X = [[3, 2, 2], [2, 3, -2]], calculate the non-zero singular values σ₁ and σ₂, and construct the singular value matrix Σ.
+          </div>
+          <div class="solution-box visible">
+            <div class="solution-header">✓ Step-by-Step Numerical Working</div>
+            <div class="solution-text">
+              <b>Step 1: Compute the Gram Matrix XXᵀ (2×2)</b><br>
+              <div class="math-formula">
+              XXᵀ = [[3, 2, 2], [2, 3, -2]] [[3, 2], [2, 3], [2, -2]]<br>
+              (1,1) = 3² + 2² + 2² = 9 + 4 + 4 = 17<br>
+              (1,2) = 3(2) + 2(3) + 2(-2) = 6 + 6 - 4 = 8<br>
+              (2,1) = 8<br>
+              (2,2) = 2² + 3² + (-2)² = 4 + 9 + 4 = 17<br>
+              XXᵀ = [[17, 8], [8, 17]]
+              </div>
+              <b>Step 2: Find Eigenvalues of XXᵀ</b><br>
+              <div class="math-formula">
+              det([[17 - λ, 8], [8, 17 - λ]]) = (17 - λ)² - 64 = 0<br>
+              (17 - λ) = ±8  =>  λ₁ = 17 + 8 = <b>25</b>,  λ₂ = 17 - 8 = <b>9</b>
+              </div>
+              <b>Step 3: Compute Singular Values (σᵢ = √λᵢ)</b><br>
+              <div class="math-formula">
+              σ₁ = √25 = <b>5</b><br>
+              σ₂ = √9  = <b>3</b>
+              </div>
+              <b>Step 4: Form the Singular Value Matrix Σ (2×3)</b><br>
+              <div class="math-formula">
+              Σ = [[5, 0, 0], [0, 3, 0]]
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROBLEM 4 -->
+        <div class="quiz-card">
+          <div class="quiz-meta">
+            <span class="quiz-tag">Module 3 • Multi-Machine Defect Probability</span>
+            <span class="quiz-bloom">Bloom: Level 3 (Apply) • 8 Marks</span>
+          </div>
+          <div class="quiz-question">
+            <b>Numerical Problem 4:</b> A manufacturing facility uses 3 CNC machines M1, M2, and M3 producing 50%, 30%, and 20% of all parts respectively. Defective output rates are: P(Defect | M1) = 2%, P(Defect | M2) = 4%, and P(Defect | M3) = 5%. If a randomly selected part is found defective, find the probability that it was produced by Machine M2.
+          </div>
+          <div class="solution-box visible">
+            <div class="solution-header">✓ Step-by-Step Numerical Working</div>
+            <div class="solution-text">
+              <b>Step 1: Identify Priors and Conditional Likelihoods</b><br>
+              P(M1) = 0.50, P(Defect|M1) = 0.02<br>
+              P(M2) = 0.30, P(Defect|M2) = 0.04<br>
+              P(M3) = 0.20, P(Defect|M3) = 0.05<br><br>
+              <b>Step 2: Calculate Total Probability of a Defect (Evidence P(D))</b><br>
+              <div class="math-formula">
+              P(D) = P(D|M1)P(M1) + P(D|M2)P(M2) + P(D|M3)P(M3)<br>
+                   = (0.02)(0.50) + (0.04)(0.30) + (0.05)(0.20)<br>
+                   = 0.010 + 0.012 + 0.010 = <b>0.032 (3.2%)</b>
+              </div>
+              <b>Step 3: Apply Bayes' Theorem for P(M2 | D)</b><br>
+              <div class="math-formula">
+              P(M2|D) = [P(D|M2) · P(M2)] / P(D) = [0.04 × 0.30] / 0.032 = 0.012 / 0.032 = <b>0.375 (37.5%)</b>
+              </div>
+              <b>Conclusion:</b> Although Machine M2 produces only 30% of total parts, given a defect, the probability it originated from M2 rises to 37.5% due to its elevated failure rate.
+            </div>
+          </div>
+        </div>
+
+        <!-- PROBLEM 5 -->
+        <div class="quiz-card">
+          <div class="quiz-meta">
+            <span class="quiz-tag">Module 4 • Ordinary Least Squares (OLS) Regression</span>
+            <span class="quiz-bloom">Bloom: Level 3 (Apply) • 8 Marks</span>
+          </div>
+          <div class="quiz-question">
+            <b>Numerical Problem 5:</b> For 4 cutting tool wear test samples, cutting speed x and wear rate y were recorded as: (1, 2), (2, 3), (3, 5), (4, 6). Calculate the OLS regression slope w₁, intercept w₀, and predict the tool wear rate at cutting speed x = 5.
+          </div>
+          <div class="solution-box visible">
+            <div class="solution-header">✓ Step-by-Step Numerical Working</div>
+            <div class="solution-text">
+              <b>Step 1: Compute Means (x̄, ȳ)</b><br>
+              <div class="math-formula">
+              x̄ = (1 + 2 + 3 + 4) / 4 = 10 / 4 = <b>2.5</b><br>
+              ȳ = (2 + 3 + 5 + 6) / 4 = 16 / 4 = <b>4.0</b>
+              </div>
+              <b>Step 2: Construct Deviation Products Table</b><br>
+              <div class="math-formula">
+              x_i: [1, 2, 3, 4]  =>  (x_i - x̄): [-1.5, -0.5, +0.5, +1.5]  =>  (x_i - x̄)²: [2.25, 0.25, 0.25, 2.25]  =>  ∑(x_i - x̄)² = <b>5.0</b><br>
+              y_i: [2, 3, 5, 6]  =>  (y_i - ȳ): [-2.0, -1.0, +1.0, +2.0]<br>
+              (x_i - x̄)(y_i - ȳ): [(-1.5)(-2)=3.0, (-0.5)(-1)=0.5, (0.5)(1)=0.5, (1.5)(2)=3.0]  =>  ∑(x-x̄)(y-ȳ) = <b>7.0</b>
+              </div>
+              <b>Step 3: Calculate Slope w₁ and Intercept w₀</b><br>
+              <div class="math-formula">
+              w₁ = ∑(x - x̄)(y - ȳ) / ∑(x - x̄)² = 7.0 / 5.0 = <b>1.4</b><br>
+              w₀ = ȳ - w₁x̄ = 4.0 - (1.4)(2.5) = 4.0 - 3.5 = <b>0.5</b>
+              </div>
+              <b>Fitted Regression Line:</b> <code>ŷ = 1.4x + 0.5</code><br><br>
+              <b>Step 4: Predict Wear Rate at x = 5</b><br>
+              <div class="math-formula">ŷ(5) = 1.4(5) + 0.5 = 7.0 + 0.5 = <b>7.5 units</b></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PROBLEM 6 -->
+        <div class="quiz-card">
+          <div class="quiz-meta">
+            <span class="quiz-tag">Module 4 • Confusion Matrix Evaluation</span>
+            <span class="quiz-bloom">Bloom: Level 3 (Apply) • 6 Marks</span>
+          </div>
+          <div class="quiz-question">
+            <b>Numerical Problem 6:</b> A predictive maintenance classifier evaluating 300 machine components produces the following confusion matrix: True Positives (TP) = 70, False Positives (FP) = 20, False Negatives (FN) = 10, True Negatives (TN) = 200. Calculate Accuracy, Precision, Recall, Specificity, and F1-Score.
+          </div>
+          <div class="solution-box visible">
+            <div class="solution-header">✓ Step-by-Step Numerical Working</div>
+            <div class="solution-text">
+              <div class="math-formula">
+              1. Accuracy   = (TP + TN) / Total = (70 + 200) / 300 = 270 / 300 = <b>0.900 (90.0%)</b><br>
+              2. Precision  = TP / (TP + FP) = 70 / (70 + 20) = 70 / 90 = <b>0.778 (77.8%)</b><br>
+              3. Recall     = TP / (TP + FN) = 70 / (70 + 10) = 70 / 80 = <b>0.875 (87.5%)</b><br>
+              4. Specificity= TN / (TN + FP) = 200 / (200 + 20) = 200 / 220 = <b>0.909 (90.9%)</b><br>
+              5. F1-Score   = 2 · (Precision · Recall) / (Precision + Recall)<br>
+                            = 2 · (0.7778 · 0.875) / (0.7778 + 0.875) = 1.3611 / 1.6528 = <b>0.823 (82.3%)</b>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- TAB: ALGORITHM BLUEPRINTS                  -->
+    <!-- ========================================== -->
+    <section id="tab-algorithms" class="tab-section">
+      <div class="hero-banner">
+        <div class="hero-content">
+          <h1>⚙️ Core Algorithm Blueprints & Complexity Guide</h1>
+          <p>Formal algorithmic definitions, mathematical invariants, convergence criteria, and Big-O computational complexities for KTU AI & Data Science.</p>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-badge">
+            <div class="stat-num">6</div>
+            <div class="stat-lbl">Core Algorithms</div>
+          </div>
+          <div class="stat-badge">
+            <div class="stat-num">O(n)</div>
+            <div class="stat-lbl">Complexity Bounds</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ALGORITHM 1: PERCEPTRON LEARNING -->
+      <div class="viva-card">
+        <div class="viva-header">
+          <div class="viva-title">Algorithm 1: Rosenblatt's Perceptron Learning Algorithm (PLA)</div>
+          <span class="viva-badge" style="background:rgba(6,182,212,0.15); color:var(--cyan-primary);">Module 1 • Supervised Classification</span>
+        </div>
+        <p style="font-size:12px; color:var(--text-muted); margin-bottom:10px;">
+          <b>Inputs:</b> Training set D = {(xᵢ, yᵢ)} with xᵢ ∈ ℝᵈ, yᵢ ∈ {-1, +1}; Learning rate η > 0.<br>
+          <b>Output:</b> Hyperplane weight vector w ∈ ℝᵈ and bias b ∈ ℝ satisfying yᵢ(wᵀxᵢ + b) > 0 for all i.
+        </p>
+        <div class="code-algo-block">
+1. Initialize weight vector w = [0, 0, ..., 0]ᵀ and bias b = 0
+2. Repeat until all training instances are correctly classified:
+3.    converged = True
+4.    For each sample (xᵢ, yᵢ) in D:
+5.       activation z = wᵀxᵢ + b
+6.       prediction ŷ = sign(z)  // +1 if z ≥ 0, else -1
+7.       If ŷ ≠ yᵢ:
+8.          w = w + η · yᵢ · xᵢ   // Update weights
+9.          b = b + η · yᵢ        // Update bias
+10.         converged = False
+11.   If converged == True: Break and return (w, b)
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:10px; font-size:12px; background:rgba(15,23,42,0.6); padding:12px; border-radius:8px;">
+          <div><b>Time Complexity:</b> O(k · n · d), where k ≤ (R/γ)² updates</div>
+          <div><b>Space Complexity:</b> O(d) for weight storage</div>
+          <div><b>Convergence Invariant:</b> Guaranteed if linearly separable</div>
+        </div>
+      </div>
+
+      <!-- ALGORITHM 2: MULTI-LAYER BACKPROPAGATION -->
+      <div class="viva-card">
+        <div class="viva-header">
+          <div class="viva-title">Algorithm 2: Multi-Layer Perceptron (MLP) Backpropagation with Gradient Descent</div>
+          <span class="viva-badge" style="background:rgba(99,102,241,0.15); color:#a5b4fc;">Module 1 • Deep Learning</span>
+        </div>
+        <p style="font-size:12px; color:var(--text-muted); margin-bottom:10px;">
+          <b>Inputs:</b> Training samples {(xᵢ, yᵢ)}, L layers, activation function σ(z), loss function J.<br>
+          <b>Output:</b> Optimized weights W⁽ˡ⁾ and biases b⁽ˡ⁾ minimizing loss J.
+        </p>
+        <div class="code-algo-block">
+// FORWARD PROPAGATION PASS:
+1. For layer l = 1 to L:
+2.    z⁽ˡ⁾ = W⁽ˡ⁾ · a⁽ˡ⁻¹⁾ + b⁽ˡ⁾
+3.    a⁽ˡ⁾ = σ(z⁽ˡ⁾)  // Activation (e.g. Sigmoid or ReLU)
+
+// BACKWARD PROPAGATION PASS (Error Deltas):
+4. Output layer error: δ⁽ᴸ⁾ = ∇_{a} J ⊙ σ'(z⁽ᴸ⁾)
+5. For hidden layer l = L-1 down to 1:
+6.    δ⁽ˡ⁾ = ((W⁽ˡ⁺¹⁾)ᵀ · δ⁽ˡ⁺¹⁾) ⊙ σ'(z⁽ˡ⁾)
+
+// GRADIENT DESCENT PARAMETER UPDATES:
+7. For each layer l = 1 to L:
+8.    W⁽ˡ⁾ = W⁽ˡ⁾ - η · (δ⁽ˡ⁾ · (a⁽ˡ⁻¹⁾)ᵀ)
+9.    b⁽ˡ⁾ = b⁽ˡ⁾ - η · δ⁽ˡ⁾
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:10px; font-size:12px; background:rgba(15,23,42,0.6); padding:12px; border-radius:8px;">
+          <div><b>Time Complexity:</b> O(E · n · ∑ (n_{l} · n_{l-1}))</div>
+          <div><b>Space Complexity:</b> O(∑ (n_{l} · n_{l-1})) for weights and activations</div>
+          <div><b>Core Principle:</b> Multivariate Chain Rule of calculus</div>
+        </div>
+      </div>
+
+      <!-- ALGORITHM 3: PRINCIPAL COMPONENT ANALYSIS -->
+      <div class="viva-card">
+        <div class="viva-header">
+          <div class="viva-title">Algorithm 3: Principal Component Analysis (PCA) via Covariance Decomposition</div>
+          <span class="viva-badge" style="background:rgba(16,185,129,0.15); color:#6ee7b7;">Module 2 • Dimensionality Reduction</span>
+        </div>
+        <p style="font-size:12px; color:var(--text-muted); margin-bottom:10px;">
+          <b>Inputs:</b> Data matrix X ∈ ℝ^{n × d}, target reduced dimensions k (k < d).<br>
+          <b>Output:</b> Lower-dimensional projected representation Z ∈ ℝ^{n × k} preserving maximal variance.
+        </p>
+        <div class="code-algo-block">
+1. Compute feature column means: μ = (1/n) ∑_{i=1}ⁿ xᵢ
+2. Center the data matrix: X̃ = X - 1 · μᵀ
+3. Compute Covariance Matrix: Σ = (1/n) X̃ᵀ X̃ ∈ ℝ^{d × d}
+4. Compute Eigenvalues λ and Eigenvectors v: solve det(Σ - λI) = 0
+5. Sort eigenvalues in descending order: λ₁ ≥ λ₂ ≥ ... ≥ λ_d
+6. Select top k eigenvectors to form projection matrix: V_k = [v₁, v₂, ..., v_k] ∈ ℝ^{d × k}
+7. Project centered data onto k-dimensional subspace: Z = X̃ · V_k ∈ ℝ^{n × k}
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:10px; font-size:12px; background:rgba(15,23,42,0.6); padding:12px; border-radius:8px;">
+          <div><b>Time Complexity:</b> O(n · d² + d³) for covariance & eigendecomposition</div>
+          <div><b>Variance Retained:</b> (∑_{j=1}ᵏ λⱼ) / (∑_{j=1}ᵈ λⱼ)</div>
+          <div><b>Alternative:</b> SVD X̃ = U Σ Vᵀ avoids explicit X̃ᵀX̃</div>
+        </div>
+      </div>
+
+      <!-- ALGORITHM 4: K-MEANS CLUSTERING -->
+      <div class="viva-card">
+        <div class="viva-header">
+          <div class="viva-title">Algorithm 4: K-Means Clustering (Lloyd's Heuristic)</div>
+          <span class="viva-badge" style="background:rgba(245,158,11,0.15); color:#fcd34d;">Module 4 • Unsupervised Clustering</span>
+        </div>
+        <p style="font-size:12px; color:var(--text-muted); margin-bottom:10px;">
+          <b>Inputs:</b> Dataset X = {x₁, ..., xₙ}, number of clusters K, convergence threshold ε.<br>
+          <b>Output:</b> K cluster assignments C = {C₁, ..., C_K} and cluster centroid vectors {μ₁, ..., μ_K}.
+        </p>
+        <div class="code-algo-block">
+1. Initialize K cluster centroids {μ₁, μ₂, ..., μ_K} randomly or via K-Means++
+2. Repeat until centroids change by less than ε:
+3.    // EXPECTATION STEP (Cluster Assignment):
+4.    For each data point xᵢ:
+5.       cᵢ = argmin_{k ∈ {1..K}} ||xᵢ - μ_k||²  // Assign to nearest centroid
+6.       Assign xᵢ to cluster C_{cᵢ}
+7.    // MAXIMIZATION STEP (Centroid Update):
+8.    For each cluster k = 1 to K:
+9.       μ_k = (1 / |C_k|) ∑_{x ∈ C_k} x       // Recompute centroid as mean
+10. Return cluster assignments C and centroids μ
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:10px; font-size:12px; background:rgba(15,23,42,0.6); padding:12px; border-radius:8px;">
+          <div><b>Time Complexity:</b> O(t · K · n · d), where t is number of iterations</div>
+          <div><b>Space Complexity:</b> O(n + K · d)</div>
+          <div><b>Objective:</b> Minimizes within-cluster sum of squares (Inertia)</div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- TAB: EXAM MODEL & VALUATION ANSWER KEY     -->
+    <!-- ========================================== -->
+    <section id="tab-exam-key" class="tab-section">
+      <div class="hero-banner">
+        <div class="hero-content">
+          <h1>📝 KTU Model Examination Paper & Official Valuation Scheme</h1>
+          <p>Official End Semester Examination structure for GNEST305 Introduction to AI & Data Science (2024 Scheme) with complete step-by-step valuation answer keys.</p>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-badge">
+            <div class="stat-num">60</div>
+            <div class="stat-lbl">Max Marks</div>
+          </div>
+          <div class="stat-badge">
+            <div class="stat-num">2.5h</div>
+            <div class="stat-lbl">Duration</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:rgba(15,23,42,0.8); border:1px solid var(--border-accent); border-radius:12px; padding:18px; margin-bottom:20px; font-size:12px; color:#94a3b8; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+        <div><b>University:</b> APJ Abdul Kalam Technological University (KTU)</div>
+        <div><b>Course Code:</b> GNEST305 — Introduction to AI & Data Science</div>
+        <div><b>Max Marks:</b> 60 Marks</div>
+        <div><b>Part A:</b> 8 Qs × 3 Marks = 24 Marks (Compulsory)</div>
+        <div><b>Part B:</b> 4 Modules × 9 Marks = 36 Marks (Internal Choice)</div>
+      </div>
+
+      <!-- PART A HEADER -->
+      <div class="exam-section-title">
+        <span>PART A: Short Answer Questions (Answer ALL Questions • 8 × 3 Marks = 24 Marks)</span>
+        <span class="rubric-tag">All Compulsory</span>
+      </div>
+
+      <!-- PART A QUESTIONS WITH ANSWER KEYS -->
+      <div style="display:flex; flex-direction:column; gap:16px;">
+
+        <!-- Q1 -->
+        <div class="quiz-card">
+          <div class="quiz-meta">
+            <span class="quiz-tag">Question 1 • Module 1</span>
+            <span class="rubric-tag">3 Marks [1 Mark Theorem + 1 Mark Condition + 1 Mark Bound]</span>
+          </div>
+          <div class="quiz-question">
+            <b>Q1.</b> State the Perceptron Convergence Theorem. What is the fundamental geometric condition required for convergence?
+          </div>
+          <div class="solution-box visible">
+            <div class="solution-header">✓ Official Scheme of Valuation & Answer Key</div>
+            <div class="solution-text">
+              <b>Answer:</b><br>
+              1. <b>Statement:</b> If a training dataset is linearly separable by some hyperplane with margin γ > 0, the Rosenblatt Perceptron learning algorithm is guaranteed to converge to a separating hyperplane in a finite number of weight update steps. <i>[1 Mark]</i><br>
+              2. <b>Geometric Condition:</b> Linear separability — there must exist a weight vector w* such that yᵢ(w* · xᵢ) ≥ γ > 0 for all i. <i>[1 Mark]</i><br>
+              3. <b>Convergence Bound:</b> Maximum update steps k ≤ (R / γ)², where R = max ||xᵢ|| is the radius of the smallest sphere enclosing all samples. <i>[1 Mark]</i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="quiz-card">
+          <div class="quiz-meta">
+            <span class="quiz-tag">Question 2 • Module 1</span>
+            <span class="rubric-tag">3 Marks [1.5 Marks Role + 1.5 Marks Consequence]</span>
+          </div>
+          <div class="quiz-question">
+            <b>Q2.</b> Explain why non-linear activation functions are indispensable in multi-layer neural networks.
+          </div>
+          <div class="solution-box visible">
+            <div class="solution-header">✓ Official Scheme of Valuation & Answer Key</div>
+            <div class="solution-text">
+              <b>Answer:</b><br>
+              1. <b>Linear Collapse:</b> If all activation functions were linear f(z) = c·z, any composition of linear layers W₂(W₁x + b₁) + b₂ simply collapses mathematically to another single linear transformation W'x + b'. <i>[1.5 Marks]</i><br>
+              2. <b>Non-Linear Capacity:</b> Non-linear activations (e.g. ReLU, Sigmoid) allow the network to act as a Universal Function Approximator capable of learning arbitrary complex, non-linear decision frontiers (such as XOR). <i>[1.5 Marks]</i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="quiz-card">
+          <div class="quiz-meta">
+            <span class="quiz-tag">Question 3 • Module 2</span>
+            <span class="rubric-tag">3 Marks [1.5 Marks Symmetry + 1.5 Marks Positive Semi-Definite]</span>
+          </div>
+          <div class="quiz-question">
+            <b>Q3.</b> Prove that the sample covariance matrix Σ = (1/n) XᵀX is always symmetric and positive semi-definite.
+          </div>
+          <div class="solution-box visible">
+            <div class="solution-header">✓ Official Scheme of Valuation & Answer Key</div>
+            <div class="solution-text">
+              <b>Answer:</b><br>
+              1. <b>Symmetry:</b> Σᵀ = ((1/n) XᵀX)ᵀ = (1/n) Xᵀ (Xᵀ)ᵀ = (1/n) XᵀX = Σ. Therefore, Σ is symmetric. <i>[1.5 Marks]</i><br>
+              2. <b>Positive Semi-Definite:</b> For any arbitrary non-zero vector v ∈ ℝᵈ: vᵀ Σ v = vᵀ ((1/n) XᵀX) v = (1/n) (Xv)ᵀ (Xv) = (1/n) ||Xv||² ≥ 0. Since the norm squared is always non-negative, all eigenvalues of Σ must be λᵢ ≥ 0. <i>[1.5 Marks]</i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="quiz-card">
+          <div class="quiz-meta">
+            <span class="quiz-tag">Question 4 • Module 2</span>
+            <span class="rubric-tag">3 Marks [1 Mark Definition + 1 Mark SVD Relation + 1 Mark Applicability]</span>
+          </div>
+          <div class="quiz-question">
+            <b>Q4.</b> Differentiate between an Eigenvalue and a Singular Value.
+          </div>
+          <div class="solution-box visible">
+            <div class="solution-header">✓ Official Scheme of Valuation & Answer Key</div>
+            <div class="solution-text">
+              <b>Answer:</b><br>
+              1. <b>Eigenvalues (λ):</b> Satisfy Av = λv for square matrices A (n×n). They can be negative, zero, or complex. <i>[1 Mark]</i><br>
+              2. <b>Singular Values (σ):</b> Derived from rectangular matrices X (m×n). Defined as the positive square roots of the eigenvalues of XᵀX: σᵢ = √(λᵢ(XᵀX)). Always real and non-negative (σᵢ ≥ 0). <i>[1 Mark]</i><br>
+              3. <b>Applicability:</b> SVD exists for all rectangular matrices; Eigendecomposition requires square matrices. <i>[1 Mark]</i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="quiz-card">
+          <div class="quiz-meta">
+            <span class="quiz-tag">Question 5 • Module 3</span>
+            <span class="rubric-tag">3 Marks [1 Mark Formula + 1 Mark Components + 1 Mark Meaning]</span>
+          </div>
+          <div class="quiz-question">
+            <b>Q5.</b> State Bayes' Theorem and clearly define each component in the equation.
+          </div>
+          <div class="solution-box visible">
+            <div class="solution-header">✓ Official Scheme of Valuation & Answer Key</div>
+            <div class="solution-text">
+              <b>Answer:</b><br>
+              <div class="math-formula">P(A | B) = [ P(B | A) · P(A) ] / P(B)</div>
+              1. <b>P(A | B): Posterior Probability</b> — probability of hypothesis A after observing evidence B. <i>[1 Mark]</i><br>
+              2. <b>P(B | A): Likelihood</b> — probability of evidence B occurring given hypothesis A is true. <i>[0.5 Mark]</i><br>
+              3. <b>P(A): Prior Probability</b> — initial belief in hypothesis A before evidence is observed. <i>[0.5 Mark]</i><br>
+              4. <b>P(B): Marginal Evidence</b> — total probability of evidence B under all hypotheses. <i>[1 Mark]</i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q6 -->
+        <div class="quiz-card">
+          <div class="quiz-meta">
+            <span class="quiz-tag">Question 6 • Module 3</span>
+            <span class="rubric-tag">3 Marks [1.5 Marks Statement + 1.5 Marks Application in ML]</span>
+          </div>
+          <div class="quiz-question">
+            <b>Q6.</b> State the Central Limit Theorem (CLT) and explain its importance in Machine Learning.
+          </div>
+          <div class="solution-box visible">
+            <div class="solution-header">✓ Official Scheme of Valuation & Answer Key</div>
+            <div class="solution-text">
+              <b>Answer:</b><br>
+              1. <b>Statement:</b> The distribution of the sum (or mean) of a sufficiently large number of independent and identically distributed (i.i.d.) random variables approaches a Gaussian (Normal) distribution N(μ, σ²/n), regardless of the underlying population distribution. <i>[1.5 Marks]</i><br>
+              2. <b>Importance in ML:</b> Justifies modeling measurement errors and aggregate residual noise as normally distributed in Linear Regression (OLS), hypothesis testing, and confidence interval estimation. <i>[1.5 Marks]</i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q7 -->
+        <div class="quiz-card">
+          <div class="quiz-meta">
+            <span class="quiz-tag">Question 7 • Module 4</span>
+            <span class="rubric-tag">3 Marks [1.5 Marks Lasso + 1.5 Marks Ridge]</span>
+          </div>
+          <div class="quiz-question">
+            <b>Q7.</b> Compare L1 (Lasso) and L2 (Ridge) regularization in linear models.
+          </div>
+          <div class="solution-box visible">
+            <div class="solution-header">✓ Official Scheme of Valuation & Answer Key</div>
+            <div class="solution-text">
+              <b>Answer:</b><br>
+              1. <b>L1 Regularization (Lasso):</b> Adds penalty λ ∑ |wⱼ| to loss. Produces sparse weight vectors by driving unimportant weights exactly to zero, effectively performing automatic feature selection. <i>[1.5 Marks]</i><br>
+              2. <b>L2 Regularization (Ridge):</b> Adds penalty λ ∑ wⱼ² to loss. Shrinks all weights smoothly toward zero without eliminating them completely, mitigating multicollinearity. <i>[1.5 Marks]</i>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q8 -->
+        <div class="quiz-card">
+          <div class="quiz-meta">
+            <span class="quiz-tag">Question 8 • Module 4</span>
+            <span class="rubric-tag">3 Marks [1.5 Marks Voronoi Constraint + 1.5 Marks Alternative]</span>
+          </div>
+          <div class="quiz-question">
+            <b>Q8.</b> Why does the K-Means algorithm struggle with concentric or non-convex cluster shapes?
+          </div>
+          <div class="solution-box visible">
+            <div class="solution-header">✓ Official Scheme of Valuation & Answer Key</div>
+            <div class="solution-text">
+              <b>Answer:</b><br>
+              1. <b>Spherical Voronoi Limitation:</b> K-Means computes Euclidean distance to single point centroids ||x - μ_k||², implicitly assuming clusters are spherical and isotropic. Its decision boundaries are linear hyperplanes (Voronoi tessellation), which cannot separate nested concentric rings or crescent shapes. <i>[1.5 Marks]</i><br>
+              2. <b>Remedy:</b> Use density-based clustering (DBSCAN) or spectral clustering with non-linear kernels. <i>[1.5 Marks]</i>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- PART B HEADER -->
+      <div class="exam-section-title" style="margin-top:30px;">
+        <span>PART B: Long Answer Questions (Answer ONE Full Question from each Module • 4 × 9 Marks = 36 Marks)</span>
+        <span class="rubric-tag">Internal Choice</span>
+      </div>
+
+      <!-- PART B MODULE 1 CHOICE -->
+      <div class="quiz-card">
+        <div class="quiz-meta">
+          <span class="quiz-tag">Module 1 Choice • Question 9 OR Question 10</span>
+          <span class="rubric-tag">9 Marks</span>
+        </div>
+        <div class="quiz-question">
+          <b>Q9 (a).</b> Derive the gradient descent weight update rule for a single neuron using Binary Cross-Entropy loss and Sigmoid activation: J(w) = - [ y ln(a) + (1-y) ln(1-a) ]. (5 Marks)<br>
+          <b>Q9 (b).</b> Explain the vanishing gradient problem in deep neural networks and state how the ReLU activation mitigates it. (4 Marks)
+        </div>
+        <div class="solution-box visible">
+          <div class="solution-header">✓ Official Scheme of Valuation & Answer Key (Q9)</div>
+          <div class="solution-text">
+            <b>Answer 9 (a): Derivation of Gradient [5 Marks]</b><br>
+            Net input: z = wᵀx + b. Activation: a = σ(z) = 1 / (1 + e⁻ᶻ).<br>
+            Derivative of Sigmoid: da/dz = a(1 - a). <i>[1 Mark]</i><br>
+            By chain rule: ∂J/∂wⱼ = (∂J/∂a) · (da/dz) · (∂z/∂wⱼ). <i>[1 Mark]</i><br>
+            ∂J/∂a = - [ y/a - (1-y)/(1-a) ] = - [ y(1-a) - a(1-y) ] / [ a(1-a) ] = - (y - a) / [ a(1-a) ] = (a - y) / [ a(1-a) ]. <i>[1.5 Marks]</i><br>
+            Multiplying: ∂J/∂wⱼ = [ (a - y) / (a(1-a)) ] · [ a(1-a) ] · xⱼ = <b>(a - y) · xⱼ</b>. <i>[1 Mark]</i><br>
+            Weight update: <b>wⱼ ← wⱼ - η (a - y) xⱼ</b>. <i>[0.5 Mark]</i><br><br>
+            <b>Answer 9 (b): Vanishing Gradient & ReLU [4 Marks]</b><br>
+            For Sigmoid, maximum derivative σ'(z) = 0.25 (at z=0). During backpropagation through L layers, gradients multiply by at most 0.25ᴸ, decaying exponentially to near zero for early layers. <i>[2 Marks]</i><br>
+            ReLU defined as f(z) = max(0, z) has constant derivative f'(z) = 1 for all z > 0, preventing gradient attenuation regardless of network depth. <i>[2 Marks]</i>
+          </div>
+        </div>
+      </div>
+
+      <!-- PART B MODULE 2 CHOICE -->
+      <div class="quiz-card">
+        <div class="quiz-meta">
+          <span class="quiz-tag">Module 2 Choice • Question 11 OR Question 12</span>
+          <span class="rubric-tag">9 Marks</span>
+        </div>
+        <div class="quiz-question">
+          <b>Q11.</b> Given the 2×2 data matrix X = [[3, 2], [2, 3]], compute its Singular Value Decomposition (SVD): X = U Σ Vᵀ. Verify that U and V are orthogonal matrices. (9 Marks)
+        </div>
+        <div class="solution-box visible">
+          <div class="solution-header">✓ Official Scheme of Valuation & Answer Key (Q11)</div>
+          <div class="solution-text">
+            <b>Step 1: Compute XᵀX and its Eigenvalues [3 Marks]</b><br>
+            Since X is symmetric (X = Xᵀ): XᵀX = X² = [[3, 2], [2, 3]] [[3, 2], [2, 3]] = [[13, 12], [12, 13]].<br>
+            det(XᵀX - λI) = (13 - λ)² - 144 = 0  =>  13 - λ = ±12  =>  λ₁ = 25, λ₂ = 1.<br>
+            Singular values: <b>σ₁ = √25 = 5, σ₂ = √1 = 1</b>.<br>
+            Σ = [[5, 0], [0, 1]].<br><br>
+            <b>Step 2: Compute Right Singular Vectors V (Eigenvectors of XᵀX) [3 Marks]</b><br>
+            For λ₁ = 25: (13 - 25)v₁ + 12v₂ = 0  =>  -12v₁ + 12v₂ = 0  =>  v₁ = [1/√2, 1/√2]ᵀ.<br>
+            For λ₂ = 1: (13 - 1)v₁ + 12v₂ = 0  =>  12v₁ + 12v₂ = 0  =>  v₂ = [-1/√2, 1/√2]ᵀ.<br>
+            V = [[1/√2, -1/√2], [1/√2, 1/√2]].<br><br>
+            <b>Step 3: Compute Left Singular Vectors U [2 Marks]</b><br>
+            u₁ = (1/σ₁) X v₁ = (1/5) [[3, 2], [2, 3]] [1/√2, 1/√2]ᵀ = (1/5) [5/√2, 5/√2]ᵀ = [1/√2, 1/√2]ᵀ.<br>
+            u₂ = (1/σ₂) X v₂ = (1/1) [[3, 2], [2, 3]] [-1/√2, 1/√2]ᵀ = [-1/√2, 1/√2]ᵀ.<br>
+            U = [[1/√2, -1/√2], [1/√2, 1/√2]].<br><br>
+            <b>Step 4: Verify Orthogonality [1 Mark]</b><br>
+            UᵀU = VᵀV = [[1/2 + 1/2, -1/2 + 1/2], [-1/2 + 1/2, 1/2 + 1/2]] = [[1, 0], [0, 1]] = I. Proved.
+          </div>
+        </div>
+      </div>
+
+    </section>
+
   </main>
 
-  <!-- Academic Footer -->
-  <footer>
-    <div>
-      <span style="font-weight:700; color:#e2e8f0;">APJ Abdul Kalam Technological University (KTU), Kerala</span> • 
-      <span>Course Code: GNEST305 Introduction to AI & Data Science (2024 Scheme)</span>
+  <!-- Academic Footer with Jane Rose NF Attribution -->
+  <footer style="display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center; gap:16px; padding:24px;">
+    <div style="display:flex; flex-direction:column; gap:4px;">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span style="font-size:15px; font-weight:800; color:#f8fafc; letter-spacing:-0.01em;">Jane Rose N F</span>
+        <span class="badge-ktu" style="background:rgba(6,182,212,0.15); color:var(--cyan-primary); border:1px solid rgba(6,182,212,0.3); font-size:10px; padding:2px 8px; border-radius:5px;">Course Author & Instructor</span>
+      </div>
+      <div style="font-size:12px; color:#38bdf8; font-weight:600;">Assistant Professor, Department of Computer Science & Engineering (CSE)</div>
+      <div style="font-size:11px; color:var(--text-muted); margin-top:2px;">APJ Abdul Kalam Technological University (KTU), Kerala • GNEST305 Introduction to AI & Data Science (2024 Scheme)</div>
     </div>
-    <div>
-      <span>CIE: 40 Marks | ESE: 60 Marks (2.5h)</span> • 
-      <span style="color:var(--cyan-primary);">Interactive Academic Portal</span>
+    <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px; font-size:12px; color:var(--text-dim);">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span style="background:rgba(255,255,255,0.06); padding:3px 8px; border-radius:4px; color:#cbd5e1;">44 Contact Hours</span>
+        <span style="background:rgba(255,255,255,0.06); padding:3px 8px; border-radius:4px; color:#cbd5e1;">4 Credits (3:1:0:0)</span>
+        <span style="background:rgba(255,255,255,0.06); padding:3px 8px; border-radius:4px; color:#cbd5e1;">CIE: 40 | ESE: 60</span>
+      </div>
+      <div style="font-size:11px; color:var(--emerald-primary); font-weight:600; margin-top:2px;">
+        ✓ Worked Numerical Solutions • Algorithm Blueprints • Official Valuation Keys Included
+      </div>
     </div>
   </footer>
 
@@ -2609,6 +3370,31 @@
       drawGame2();
     }
 
+    
+    // Live Interactive Bayes Diagnostic Calculator
+    function runLiveBayesCalc() {
+      const prior = parseFloat(document.getElementById('calc-in-prior').value) / 100 || 0.01;
+      const sens = parseFloat(document.getElementById('calc-in-sens').value) / 100 || 0.90;
+      const fpr = parseFloat(document.getElementById('calc-in-fpr').value) / 100 || 0.05;
+
+      const pNotD = 1 - prior;
+      const numerator = sens * prior;
+      const denominator = numerator + fpr * pNotD;
+      const posterior = (numerator / denominator) * 100;
+
+      const out = document.getElementById('calc-bayes-output');
+      if (out) {
+        out.innerHTML = `
+          <div style="margin-bottom:6px;"><b style="color:var(--emerald-primary);">Step 1: Numerator P(+|D) · P(D):</b> (${(sens*100).toFixed(1)}%) × (${(prior*100).toFixed(2)}%) = <b>${numerator.toFixed(6)}</b></div>
+          <div style="margin-bottom:6px;"><b style="color:#38bdf8;">Step 2: Total Evidence P(+):</b> [${numerator.toFixed(6)}] + [(${(fpr*100).toFixed(1)}%) × (${(pNotD*100).toFixed(2)}%)] = <b>${denominator.toFixed(6)}</b></div>
+          <div style="margin-top:8px; font-size:14px; font-weight:700; color:#f8fafc; border-top:1px solid rgba(255,255,255,0.1); padding-top:8px;">
+            Step 3: Posterior Probability P(Defect | +) = <span style="color:var(--rose-primary);">${posterior.toFixed(2)}%</span>
+            <span style="font-size:11px; color:var(--text-dim); font-weight:400; margin-left:8px;">(${Math.round(posterior*100)/100} true alarms per 100 positive signals)</span>
+          </div>
+        `;
+      }
+    }
+
     // Startup
     window.addEventListener('DOMContentLoaded', () => {
       initPerceptronPoints();
@@ -2619,7 +3405,7 @@
       resetGD();
       renderQuizzes('all');
       renderVivaCards();
-      startNewEigenMatrix();
+      startNewEigenMatrix(); runLiveBayesCalc();
     });
   </script>
 </body>
