@@ -1,0 +1,6 @@
+# Development & Temporary files
+.superpowers/
+scratch/
+*.log
+.DS_Store
+Thumbs.db

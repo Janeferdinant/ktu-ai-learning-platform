@@ -1,0 +1,2626 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KTU AI & Data Science: Algorithm Demos, Learning Games, Solution Quizzes & Viva Voce Platform</title>
+  <meta name="description" content="Interactive learning platform for APJ Abdul Kalam Technological University (KTU) AI & Data Science (GNEST305 / CSE / AI&DS). Featuring real-time algorithm visualizer labs, gamified concept duels, solution quizzes with derivations, and comprehensive viva voce defense simulator.">
+
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-primary: #070d1a;
+      --bg-secondary: #0f172a;
+      --bg-card: rgba(17, 27, 49, 0.85);
+      --bg-card-hover: rgba(23, 37, 68, 0.95);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-accent: rgba(99, 102, 241, 0.3);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --cyan-primary: #06b6d4;
+      --cyan-glow: rgba(6, 182, 212, 0.25);
+      --indigo-primary: #6366f1;
+      --indigo-glow: rgba(99, 102, 241, 0.25);
+      --emerald-primary: #10b981;
+      --emerald-glow: rgba(16, 185, 129, 0.25);
+      --amber-primary: #f59e0b;
+      --rose-primary: #f43f5e;
+      --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      font-family: var(--font-main);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.08) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(6, 182, 212, 0.06) 0%, transparent 40%);
+    }
+
+    /* Scrollbars */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-primary); }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #334155; }
+
+    /* Header */
+    header {
+      background: rgba(15, 23, 42, 0.9);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 12px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--cyan-primary), var(--indigo-primary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+      color: white;
+      box-shadow: 0 4px 15px var(--cyan-glow);
+    }
+
+    .brand-title {
+      font-size: 16px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge-ktu {
+      background: rgba(99, 102, 241, 0.15);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      color: #a5b4fc;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.04em;
+    }
+
+    .brand-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* Navigation Bar */
+    nav.main-nav {
+      background: rgba(15, 23, 42, 0.7);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 8px 24px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .nav-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-main);
+    }
+
+    .nav-btn.active {
+      background: rgba(99, 102, 241, 0.15);
+      color: #c7d2fe;
+      border-color: rgba(99, 102, 241, 0.4);
+      box-shadow: 0 2px 8px rgba(99, 102, 241, 0.2);
+    }
+
+    /* Sound and audio toggle */
+    .audio-toggle-btn {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .audio-toggle-btn:hover {
+      color: white;
+      border-color: var(--cyan-primary);
+    }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      max-width: 1400px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 24px;
+    }
+
+    /* Sections */
+    .tab-section {
+      display: none;
+      animation: fadeIn 0.3s ease forwards;
+    }
+    .tab-section.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Hero Banner */
+    .hero-banner {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.9));
+      border: 1px solid var(--border-accent);
+      border-radius: 16px;
+      padding: 24px 32px;
+      margin-bottom: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-banner::after {
+      content: '';
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, var(--cyan-glow), transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-content h1 {
+      font-size: 24px;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+    .hero-content p {
+      color: var(--text-muted);
+      font-size: 14px;
+      max-width: 780px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 20px;
+    }
+    .stat-badge {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 10px 18px;
+      text-align: center;
+    }
+    .stat-badge .stat-num {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--cyan-primary);
+      font-family: var(--font-mono);
+    }
+    .stat-badge .stat-lbl {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Sub-nav inside tabs */
+    .pill-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+      background: rgba(15, 23, 42, 0.6);
+      padding: 6px;
+      border-radius: 12px;
+      border: 1px solid var(--border-subtle);
+      width: fit-content;
+    }
+    .pill-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .pill-btn:hover { color: white; }
+    .pill-btn.active {
+      background: var(--indigo-primary);
+      color: white;
+      box-shadow: 0 2px 10px var(--indigo-glow);
+    }
+
+    /* Demo Canvas & Control Grid */
+    .lab-grid {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 24px;
+    }
+    @media (max-width: 1024px) {
+      .lab-grid { grid-template-columns: 1fr; }
+    }
+
+    .canvas-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .canvas-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .canvas-header h3 {
+      font-size: 16px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .canvas-container {
+      background: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 12px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 420px;
+    }
+    canvas {
+      display: block;
+      cursor: crosshair;
+    }
+
+    .controls-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .controls-card h4 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #e2e8f0;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 8px;
+    }
+
+    .ctrl-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .ctrl-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+    .ctrl-label span.val {
+      font-family: var(--font-mono);
+      color: var(--cyan-primary);
+    }
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      background: #1e293b;
+      border-radius: 3px;
+      outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--cyan-primary);
+      cursor: pointer;
+      box-shadow: 0 0 10px var(--cyan-glow);
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .btn {
+      padding: 9px 16px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--indigo-primary), #4338ca);
+      color: white;
+      box-shadow: 0 2px 10px var(--indigo-glow);
+    }
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #4f46e5, #3730a3);
+    }
+    .btn-cyan {
+      background: linear-gradient(135deg, var(--cyan-primary), #0891b2);
+      color: #020617;
+      font-weight: 700;
+      box-shadow: 0 2px 10px var(--cyan-glow);
+    }
+    .btn-cyan:hover {
+      background: linear-gradient(135deg, #22d3ee, var(--cyan-primary));
+    }
+    .btn-outline {
+      background: transparent;
+      border-color: #334155;
+      color: var(--text-muted);
+    }
+    .btn-outline:hover {
+      border-color: var(--text-main);
+      color: var(--text-main);
+    }
+
+    /* Viva Insight Box */
+    .viva-insight-box {
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      border-radius: 12px;
+      padding: 14px;
+      margin-top: 16px;
+    }
+    .viva-insight-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--amber-primary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .viva-insight-body {
+      font-size: 12px;
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+    .viva-insight-body code {
+      font-family: var(--font-mono);
+      background: rgba(0, 0, 0, 0.3);
+      padding: 2px 5px;
+      border-radius: 4px;
+      color: var(--cyan-primary);
+    }
+
+    /* Games Arena */
+    .game-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .game-hud {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 12px 20px;
+      margin-bottom: 16px;
+    }
+    .hud-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .hud-label {
+      font-size: 10px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .hud-value {
+      font-size: 20px;
+      font-weight: 800;
+      font-family: var(--font-mono);
+      color: var(--cyan-primary);
+    }
+
+    /* Quiz Arena */
+    .quiz-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
+      transition: border-color 0.2s ease;
+    }
+    .quiz-card:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+    .quiz-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .quiz-tag {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+      background: rgba(6, 182, 212, 0.12);
+      color: var(--cyan-primary);
+      border: 1px solid rgba(6, 182, 212, 0.25);
+    }
+    .quiz-bloom {
+      font-size: 11px;
+      color: var(--text-dim);
+    }
+    .quiz-question {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f1f5f9;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+    .quiz-options {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .quiz-opt {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: #cbd5e1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.2s ease;
+      text-align: left;
+    }
+    .quiz-opt:hover {
+      background: rgba(30, 41, 59, 0.8);
+      border-color: #334155;
+    }
+    .quiz-opt.correct {
+      background: rgba(16, 185, 129, 0.15) !important;
+      border-color: var(--emerald-primary) !important;
+      color: #6ee7b7 !important;
+    }
+    .quiz-opt.incorrect {
+      background: rgba(244, 63, 94, 0.15) !important;
+      border-color: var(--rose-primary) !important;
+      color: #fda4af !important;
+    }
+    .opt-letter {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .solution-box {
+      background: rgba(10, 16, 30, 0.95);
+      border-left: 3px solid var(--emerald-primary);
+      border-radius: 0 10px 10px 0;
+      padding: 16px;
+      margin-top: 12px;
+      display: none;
+    }
+    .solution-box.visible {
+      display: block;
+      animation: fadeIn 0.2s ease;
+    }
+    .solution-header {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--emerald-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+    .solution-text {
+      font-size: 13px;
+      color: #e2e8f0;
+      line-height: 1.6;
+    }
+    .math-formula {
+      font-family: var(--font-mono);
+      background: rgba(0, 0, 0, 0.4);
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin: 8px 0;
+      color: #a5f3fc;
+      border: 1px dashed rgba(6, 182, 212, 0.3);
+      font-size: 12px;
+      overflow-x: auto;
+    }
+
+    /* Viva Voce Cards */
+    .viva-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+    .viva-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 14px;
+      gap: 12px;
+    }
+    .viva-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #f8fafc;
+      line-height: 1.4;
+    }
+    .viva-badge {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      white-space: nowrap;
+    }
+    .viva-body {
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .viva-section {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border-subtle);
+      border-radius: 10px;
+      padding: 14px;
+    }
+    .viva-sec-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .viva-answer-content {
+      font-size: 13px;
+      color: #cbd5e1;
+      line-height: 1.6;
+    }
+
+    /* Filter Controls */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .search-input {
+      background: #0f172a;
+      border: 1px solid #1e293b;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      color: white;
+      outline: none;
+      min-width: 240px;
+    }
+    .search-input:focus {
+      border-color: var(--cyan-primary);
+    }
+
+    /* Footer */
+    footer {
+      background: rgba(10, 15, 30, 0.9);
+      border-top: 1px solid var(--border-subtle);
+      padding: 20px 24px;
+      font-size: 12px;
+      color: var(--text-dim);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Main Header -->
+  <header>
+    <div class="brand-group">
+      <div class="brand-logo">AI</div>
+      <div>
+        <div class="brand-title">
+          <span>KTU AI & Data Science Portal</span>
+          <span class="badge-ktu">2024 Scheme • GNEST305</span>
+        </div>
+        <div class="brand-sub">Interactive Algorithm Labs • Gamified Learning • Solution Quizzes • Viva Voce Defense</div>
+      </div>
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <button id="audio-toggle" class="audio-toggle-btn" onclick="soundManager.toggleSound()">
+        <span id="sound-icon">🔊</span> Sound: <span id="sound-status">ON</span>
+      </button>
+      <span class="badge-ktu" style="background: rgba(16, 185, 129, 0.15); color: #34d399; border-color: rgba(16, 185, 129, 0.3);">
+        ● Ready for Oral Viva & Exam Prep
+      </span>
+    </div>
+  </header>
+
+  <!-- Navigation Bar -->
+  <nav class="main-nav">
+    <button class="nav-btn active" data-tab="demos" onclick="switchMainTab('demos')">
+      <span>🔬</span> Interactive Algorithm Labs
+    </button>
+    <button class="nav-btn" data-tab="games" onclick="switchMainTab('games')">
+      <span>🎮</span> Concept Mastery Games (4)
+    </button>
+    <button class="nav-btn" data-tab="quizzes" onclick="switchMainTab('quizzes')">
+      <span>🎯</span> Solution Quiz Arena (Step-by-Step)
+    </button>
+    <button class="nav-btn" data-tab="viva" onclick="switchMainTab('viva')">
+      <span>👔</span> Course Viva & Examiner Defense
+    </button>
+    <button class="nav-btn" data-tab="syllabus" onclick="switchMainTab('syllabus')">
+      <span>📋</span> KTU Syllabus & Course Map
+    </button>
+  </nav>
+
+  <!-- Main Content Container -->
+  <main>
+
+    <!-- ========================================== -->
+    <!-- TAB 1: INTERACTIVE ALGORITHM LABS          -->
+    <!-- ========================================== -->
+    <section id="tab-demos" class="tab-section active">
+      <div class="hero-banner">
+        <div class="hero-content">
+          <h1>🔬 Interactive Algorithm Visualizer Labs</h1>
+          <p>Gain deep intuition of KTU syllabus algorithms through real-time mathematical manipulation, step-by-step iteration, and visual decision frontiers.</p>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-badge">
+            <div class="stat-num">5</div>
+            <div class="stat-lbl">Core Algorithms</div>
+          </div>
+          <div class="stat-badge">
+            <div class="stat-num">60fps</div>
+            <div class="stat-lbl">Canvas Visuals</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lab Sub-Selector -->
+      <div class="pill-selector">
+        <button class="pill-btn active" onclick="switchDemoLab('perceptron')">1. Perceptron & Decision Boundary</button>
+        <button class="pill-btn" onclick="switchDemoLab('kmeans')">2. K-Means Clustering & Voronoi</button>
+        <button class="pill-btn" onclick="switchDemoLab('pca')">3. SVD & PCA Projection</button>
+        <button class="pill-btn" onclick="switchDemoLab('bayes')">4. Bayes Diagnostic Simulator</button>
+        <button class="pill-btn" onclick="switchDemoLab('gradient')">5. Gradient Descent Landscape</button>
+      </div>
+
+      <!-- DEMO 1: PERCEPTRON LAB -->
+      <div id="demo-lab-perceptron" class="demo-sublab">
+        <div class="lab-grid">
+          <div class="canvas-card">
+            <div class="canvas-header">
+              <h3><span>⚡</span> Linear Perceptron Hyperplane: <code>w₁x₁ + w₂x₂ + b = 0</code></h3>
+              <span id="perceptron-acc-badge" style="font-size: 12px; font-weight: 700; color: var(--emerald-primary); background: rgba(16,185,129,0.1); padding: 4px 10px; border-radius: 6px;">
+                Accuracy: 100%
+              </span>
+            </div>
+            <div class="canvas-container">
+              <canvas id="perceptronCanvas" width="600" height="420"></canvas>
+            </div>
+            <div class="viva-insight-box">
+              <div class="viva-insight-title">🎓 Viva Voce Key Insight (Module 1)</div>
+              <div class="viva-insight-body">
+                <b>Perceptron Convergence Theorem:</b> If data is linearly separable, Rosenblatt's learning algorithm guarantees convergence in a finite number of steps ($k \le (R/\gamma)^2$). If non-linearly separable (like XOR), it oscillates endlessly without converging.
+              </div>
+            </div>
+          </div>
+
+          <div class="controls-card">
+            <h4>Hyperplane Controls</h4>
+            <div class="ctrl-group">
+              <div class="ctrl-label"><span>Weight w₁ (Slope X):</span><span class="val" id="val-p-w1">1.2</span></div>
+              <input type="range" id="slider-p-w1" min="-3" max="3" step="0.1" value="1.2" oninput="updatePerceptron()">
+            </div>
+            <div class="ctrl-group">
+              <div class="ctrl-label"><span>Weight w₂ (Slope Y):</span><span class="val" id="val-p-w2">-1.5</span></div>
+              <input type="range" id="slider-p-w2" min="-3" max="3" step="0.1" value="-1.5" oninput="updatePerceptron()">
+            </div>
+            <div class="ctrl-group">
+              <div class="ctrl-label"><span>Bias b (Intercept):</span><span class="val" id="val-p-b">0.2</span></div>
+              <input type="range" id="slider-p-b" min="-3" max="3" step="0.1" value="0.2" oninput="updatePerceptron()">
+            </div>
+
+            <h4>Interactive Actions</h4>
+            <div class="btn-group">
+              <button class="btn btn-cyan" onclick="trainPerceptronStep()">⚡ 1 Epoch Step (Learn)</button>
+              <button class="btn btn-primary" onclick="autoTrainPerceptron()">▶ Auto-Converge</button>
+              <button class="btn btn-outline" onclick="resetPerceptronPoints()">↺ New Points</button>
+            </div>
+            <p style="font-size: 11px; color: var(--text-dim); margin-top: 4px;">
+              💡 <b>Tip:</b> Click on the canvas to manually add new data points (Left click: Blue Class +1, Right click: Red Class -1).
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- DEMO 2: K-MEANS CLUSTERING LAB -->
+      <div id="demo-lab-kmeans" class="demo-sublab" style="display:none;">
+        <div class="lab-grid">
+          <div class="canvas-card">
+            <div class="canvas-header">
+              <h3><span>🫧</span> K-Means Clustering & Voronoi Space Partitioning</h3>
+              <span id="kmeans-iter-badge" style="font-size: 12px; font-weight: 700; color: var(--cyan-primary); background: rgba(6,182,212,0.1); padding: 4px 10px; border-radius: 6px;">
+                Iteration: 0 • SSE: 0.00
+              </span>
+            </div>
+            <div class="canvas-container">
+              <canvas id="kmeansCanvas" width="600" height="420"></canvas>
+            </div>
+            <div class="viva-insight-box">
+              <div class="viva-insight-title">🎓 Viva Voce Key Insight (Module 4)</div>
+              <div class="viva-insight-body">
+                <b>Expectation-Maximization in K-Means:</b> E-step assigns each point to nearest centroid $\arg\min_k \|x_i - \mu_k\|^2$. M-step updates centroids $\mu_k = \frac{1}{|C_k|}\sum x_i$. Objective function (Inertia/SSE) is guaranteed to monotonically decrease, but may converge to a sub-optimal local minimum depending on centroid initialization.
+              </div>
+            </div>
+          </div>
+
+          <div class="controls-card">
+            <h4>Cluster Parameters</h4>
+            <div class="ctrl-group">
+              <div class="ctrl-label"><span>Number of Clusters (K):</span><span class="val" id="val-k-clusters">3</span></div>
+              <input type="range" id="slider-k-clusters" min="2" max="5" step="1" value="3" oninput="changeKMeansK(this.value)">
+            </div>
+
+            <h4>Execution Pipeline</h4>
+            <div class="btn-group">
+              <button class="btn btn-cyan" onclick="stepKMeans()">⚡ Step (Assign & Recompute)</button>
+              <button class="btn btn-primary" onclick="autoRunKMeans()">▶ Run to Convergence</button>
+              <button class="btn btn-outline" onclick="resetKMeansPoints()">↺ Randomize Data</button>
+            </div>
+            <p style="font-size: 11px; color: var(--text-dim); margin-top: 4px;">
+              💡 Colored background regions represent live Voronoi cells where points are assigned to the nearest centroid marker (★).
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- DEMO 3: PCA & SVD LAB -->
+      <div id="demo-lab-pca" class="demo-sublab" style="display:none;">
+        <div class="lab-grid">
+          <div class="canvas-card">
+            <div class="canvas-header">
+              <h3><span>📐</span> SVD & Principal Component Analysis (PCA)</h3>
+              <span id="pca-var-badge" style="font-size: 12px; font-weight: 700; color: var(--indigo-primary); background: rgba(99,102,241,0.1); padding: 4px 10px; border-radius: 6px;">
+                PC1 Variance: 88.4%
+              </span>
+            </div>
+            <div class="canvas-container">
+              <canvas id="pcaCanvas" width="600" height="420"></canvas>
+            </div>
+            <div class="viva-insight-box">
+              <div class="viva-insight-title">🎓 Viva Voce Key Insight (Module 2)</div>
+              <div class="viva-insight-body">
+                <b>Orthogonal Subspace Projection:</b> The first Principal Component $v_1$ is the eigenvector of covariance matrix $\Sigma = \frac{1}{n}X^T X$ corresponding to largest eigenvalue $\lambda_1$. SVD $X = U \Sigma V^T$ yields identical right singular vectors $V$, eliminating explicit computation of $\Sigma$ for numerical stability.
+              </div>
+            </div>
+          </div>
+
+          <div class="controls-card">
+            <h4>Data Covariance & Projection</h4>
+            <div class="ctrl-group">
+              <div class="ctrl-label"><span>Correlation Angle (Deg):</span><span class="val" id="val-pca-angle">35°</span></div>
+              <input type="range" id="slider-pca-angle" min="0" max="180" step="5" value="35" oninput="updatePCAData()">
+            </div>
+            <div class="ctrl-group">
+              <div class="ctrl-label"><span>Subspace Projection:</span><span class="val" id="val-pca-proj">Full 2D</span></div>
+              <input type="range" id="slider-pca-proj" min="0" max="1" step="1" value="0" oninput="togglePCAProjection(this.value)">
+            </div>
+
+            <h4>Reconstruction Metrics</h4>
+            <div style="background: rgba(15,23,42,0.7); padding: 10px; border-radius: 8px; font-size: 12px; font-family: var(--font-mono);">
+              <div>Eigenvalue λ₁: <span id="pca-lambda1" style="color:var(--cyan-primary);">4.82</span></div>
+              <div>Eigenvalue λ₂: <span id="pca-lambda2" style="color:var(--amber-primary);">0.63</span></div>
+              <div>Reconstruction Error: <span id="pca-rec-error" style="color:#f43f5e;">0.12</span></div>
+            </div>
+
+            <button class="btn btn-outline" onclick="randomizePCA()">↺ New Random Gaussian Cloud</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- DEMO 4: BAYES DIAGNOSTIC LAB -->
+      <div id="demo-lab-bayes" class="demo-sublab" style="display:none;">
+        <div class="lab-grid">
+          <div class="canvas-card">
+            <div class="canvas-header">
+              <h3><span>🎲</span> Bayes' Theorem & Diagnostic Risk Simulator</h3>
+              <span id="bayes-posterior-badge" style="font-size: 12px; font-weight: 700; color: var(--rose-primary); background: rgba(244,63,94,0.1); padding: 4px 10px; border-radius: 6px;">
+                Posterior P(Defect | +): 16.3%
+              </span>
+            </div>
+            <div class="canvas-container">
+              <canvas id="bayesCanvas" width="600" height="420"></canvas>
+            </div>
+            <div class="viva-insight-box">
+              <div class="viva-insight-title">🎓 Viva Voce Key Insight (Module 3)</div>
+              <div class="viva-insight-body">
+                <b>Base Rate Fallacy:</b> Even with a highly sensitive sensor (e.g. 95%), if the prior incidence of tool failure $P(D)$ is rare (1%), a positive alarm yields surprisingly low posterior probability (~16%) due to false alarms from the massive healthy population.
+              </div>
+            </div>
+          </div>
+
+          <div class="controls-card">
+            <h4>Probability Parameters</h4>
+            <div class="ctrl-group">
+              <div class="ctrl-label"><span>Prior Probability P(D):</span><span class="val" id="val-bayes-prior">1.0%</span></div>
+              <input type="range" id="slider-bayes-prior" min="0.1" max="10" step="0.1" value="1.0" oninput="updateBayesLab()">
+            </div>
+            <div class="ctrl-group">
+              <div class="ctrl-label"><span>Sensitivity P(+|D):</span><span class="val" id="val-bayes-sens">95%</span></div>
+              <input type="range" id="slider-bayes-sens" min="70" max="99" step="1" value="95" oninput="updateBayesLab()">
+            </div>
+            <div class="ctrl-group">
+              <div class="ctrl-label"><span>False Positive Rate P(+|Dᶜ):</span><span class="val" id="val-bayes-fpr">5%</span></div>
+              <input type="range" id="slider-bayes-fpr" min="1" max="20" step="1" value="5" oninput="updateBayesLab()">
+            </div>
+
+            <div class="math-formula">
+              P(D|+) = [P(+|D)·P(D)] / [P(+|D)·P(D) + P(+|Dᶜ)·P(Dᶜ)]
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DEMO 5: GRADIENT DESCENT LAB -->
+      <div id="demo-lab-gradient" class="demo-sublab" style="display:none;">
+        <div class="lab-grid">
+          <div class="canvas-card">
+            <div class="canvas-header">
+              <h3><span>🏔️</span> Gradient Descent Optimization Surface: <code>J(w)</code></h3>
+              <span id="gd-iter-badge" style="font-size: 12px; font-weight: 700; color: var(--emerald-primary); background: rgba(16,185,129,0.1); padding: 4px 10px; border-radius: 6px;">
+                Steps: 0 • Loss: 0.00
+              </span>
+            </div>
+            <div class="canvas-container">
+              <canvas id="gradientCanvas" width="600" height="420"></canvas>
+            </div>
+            <div class="viva-insight-box">
+              <div class="viva-insight-title">🎓 Viva Voce Key Insight (Module 1 & 4)</div>
+              <div class="viva-insight-body">
+                <b>Learning Rate Dynamics:</b> Parameter update $w^{(t+1)} = w^{(t)} - \eta \nabla J(w)$. If $\eta$ is too small, convergence is painfully sluggish. If $\eta$ is too large, the trajectory oscillates wildly and diverges. Momentum adds inertia $\Delta w = \beta \Delta w_{prev} - \eta \nabla J(w)$.
+              </div>
+            </div>
+          </div>
+
+          <div class="controls-card">
+            <h4>Optimization Hyperparameters</h4>
+            <div class="ctrl-group">
+              <div class="ctrl-label"><span>Learning Rate (η):</span><span class="val" id="val-gd-lr">0.08</span></div>
+              <input type="range" id="slider-gd-lr" min="0.01" max="0.3" step="0.01" value="0.08" oninput="updateGDParams()">
+            </div>
+            <div class="ctrl-group">
+              <div class="ctrl-label"><span>Momentum (β):</span><span class="val" id="val-gd-mom">0.2</span></div>
+              <input type="range" id="slider-gd-mom" min="0.0" max="0.9" step="0.05" value="0.2" oninput="updateGDParams()">
+            </div>
+
+            <h4>Descent Controls</h4>
+            <div class="btn-group">
+              <button class="btn btn-cyan" onclick="stepGD()">⚡ Step Descent</button>
+              <button class="btn btn-primary" onclick="autoRunGD()">▶ Full Trajectory</button>
+              <button class="btn btn-outline" onclick="resetGD()">↺ Reset Position</button>
+            </div>
+            <p style="font-size: 11px; color: var(--text-dim); margin-top: 4px;">
+              💡 Click anywhere on the contour plot to set a new starting point!
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- TAB 2: CONCEPT MASTERY GAMES (4)           -->
+    <!-- ========================================== -->
+    <section id="tab-games" class="tab-section">
+      <div class="hero-banner">
+        <div class="hero-content">
+          <h1>🎮 Gamified Concept Mastery Arena</h1>
+          <p>Sharpen your engineering reflexes through 4 interactive games designed to build instinctive algorithm intuition under time pressure.</p>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-badge">
+            <div class="stat-num" id="total-game-score">0</div>
+            <div class="stat-lbl">Total Score</div>
+          </div>
+          <div class="stat-badge">
+            <div class="stat-num">4</div>
+            <div class="stat-lbl">Game Modes</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pill-selector">
+        <button class="pill-btn active" onclick="switchGameMode('hyperplane')">Game 1: Hyperplane Slicer (Perceptron Duel)</button>
+        <button class="pill-btn" onclick="switchGameMode('eigen')">Game 2: Eigen-Hunter (Invariance Quest)</button>
+        <button class="pill-btn" onclick="switchGameMode('detective')">Game 3: Bayes Detective (Fault Mystery)</button>
+        <button class="pill-btn" onclick="switchGameMode('blitz')">Game 4: Viva Speed Quiz Blitz</button>
+      </div>
+
+      <!-- GAME 1: HYPERPLANE SLICER -->
+      <div id="game-mode-hyperplane" class="game-container">
+        <div class="game-card">
+          <div class="game-hud">
+            <div class="hud-item">
+              <span class="hud-label">Time Remaining</span>
+              <span class="hud-value" id="game1-timer">30s</span>
+            </div>
+            <div class="hud-item">
+              <span class="hud-label">Classification Accuracy</span>
+              <span class="hud-value" id="game1-acc">0%</span>
+            </div>
+            <div class="hud-item">
+              <span class="hud-label">Score</span>
+              <span class="hud-value" id="game1-score">0</span>
+            </div>
+            <div class="hud-item">
+              <button class="btn btn-cyan" id="game1-start-btn" onclick="startGame1()">▶ Start Round</button>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 280px; gap: 20px;">
+            <div class="canvas-container" style="min-height: 380px;">
+              <canvas id="game1Canvas" width="600" height="380"></canvas>
+            </div>
+            <div style="background: rgba(15,23,42,0.6); padding: 16px; border-radius: 12px; display: flex; flex-direction: column; gap: 14px;">
+              <h4 style="font-size: 13px; color: var(--cyan-primary);">🎯 Mission Objective:</h4>
+              <p style="font-size: 12px; color: #cbd5e1; line-height: 1.4;">
+                Adjust weights $w_1$, $w_2$, and bias $b$ to achieve <b>100% linear separation</b> between Red (-1) and Blue (+1) clusters before time expires!
+              </p>
+              <div class="ctrl-group">
+                <div class="ctrl-label"><span>Weight w₁:</span><span class="val" id="g1-val-w1">1.0</span></div>
+                <input type="range" id="g1-slider-w1" min="-3" max="3" step="0.1" value="1.0" oninput="updateGame1Plane()">
+              </div>
+              <div class="ctrl-group">
+                <div class="ctrl-label"><span>Weight w₂:</span><span class="val" id="g1-val-w2">-1.0</span></div>
+                <input type="range" id="g1-slider-w2" min="-3" max="3" step="0.1" value="-1.0" oninput="updateGame1Plane()">
+              </div>
+              <div class="ctrl-group">
+                <div class="ctrl-label"><span>Bias b:</span><span class="val" id="g1-val-b">0.0</span></div>
+                <input type="range" id="g1-slider-b" min="-3" max="3" step="0.1" value="0.0" oninput="updateGame1Plane()">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GAME 2: EIGEN-HUNTER -->
+      <div id="game-mode-eigen" class="game-container" style="display:none;">
+        <div class="game-card">
+          <div class="game-hud">
+            <div class="hud-item">
+              <span class="hud-label">Target Matrix A</span>
+              <span class="hud-value" style="font-size: 14px;" id="game2-matrix">[ [2, 1], [1, 2] ]</span>
+            </div>
+            <div class="hud-item">
+              <span class="hud-label">Angular Error</span>
+              <span class="hud-value" id="game2-error">24.5°</span>
+            </div>
+            <div class="hud-item">
+              <span class="hud-label">Eigenvectors Found</span>
+              <span class="hud-value" id="game2-found">0 / 2</span>
+            </div>
+            <div class="hud-item">
+              <button class="btn btn-cyan" onclick="startNewEigenMatrix()">↺ New Matrix</button>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 280px; gap: 20px;">
+            <div class="canvas-container" style="min-height: 380px;">
+              <canvas id="game2Canvas" width="600" height="380"></canvas>
+            </div>
+            <div style="background: rgba(15,23,42,0.6); padding: 16px; border-radius: 12px; display: flex; flex-direction: column; gap: 14px;">
+              <h4 style="font-size: 13px; color: var(--indigo-primary);">🎯 Mission Objective:</h4>
+              <p style="font-size: 12px; color: #cbd5e1; line-height: 1.4;">
+                Rotate test vector <span style="color:#06b6d4; font-weight:700;">v</span> until transformed vector <span style="color:#ec4899; font-weight:700;">Av</span> points in the exact same or opposite direction! That reveals an <b>Eigenvector</b> and its <b>Eigenvalue λ</b>!
+              </p>
+              <div class="ctrl-group">
+                <div class="ctrl-label"><span>Vector Angle θ:</span><span class="val" id="g2-val-theta">45°</span></div>
+                <input type="range" id="g2-slider-theta" min="0" max="360" step="1" value="45" oninput="updateEigenGame(this.value)">
+              </div>
+              <div id="eigen-success-banner" style="display:none; background:rgba(16,185,129,0.2); border:1px solid #10b981; border-radius:8px; padding:10px; font-size:12px; color:#34d399; font-weight:700;">
+                🎉 EIGENVECTOR LOCKED!<br>
+                Eigenvalue λ ≈ <span id="locked-eigenvalue">3.0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GAME 3: BAYES DETECTIVE -->
+      <div id="game-mode-detective" class="game-container" style="display:none;">
+        <div class="game-card">
+          <div class="game-hud">
+            <div class="hud-item">
+              <span class="hud-label">Case File</span>
+              <span class="hud-value" style="font-size:16px;">#8291 CNC Bearing Failure</span>
+            </div>
+            <div class="hud-item">
+              <span class="hud-label">Detective Rank</span>
+              <span class="hud-value" id="detective-rank">Senior Diagnostician</span>
+            </div>
+            <div class="hud-item">
+              <span class="hud-label">Score</span>
+              <span class="hud-value" id="detective-score">100 XP</span>
+            </div>
+          </div>
+
+          <div style="background: rgba(15,23,42,0.8); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 20px;">
+            <h3 style="font-size: 16px; color: var(--amber-primary); margin-bottom: 10px;">🚨 Diagnostic Case Incident:</h3>
+            <p style="font-size: 13px; color: #e2e8f0; line-height: 1.6; margin-bottom: 16px;">
+              A vibration telemetry sensor on CNC Machine 4 has triggered an <b>Excessive Flank Wear Alarm (+)</b>.<br>
+              Historical factory data indicates:
+            </p>
+            <ul style="font-size: 13px; color: #94a3b8; margin-left: 20px; line-height: 1.6; margin-bottom: 16px;">
+              <li>Prior probability of severe flank wear: <code>P(Wear) = 0.02 (2%)</code></li>
+              <li>Sensor sensitivity (True Positive Rate): <code>P(+ | Wear) = 0.90 (90%)</code></li>
+              <li>Sensor false positive rate on normal tools: <code>P(+ | Normal) = 0.05 (5%)</code></li>
+            </ul>
+
+            <h4 style="font-size: 14px; margin-bottom: 12px;">What is the true probability that the tool is actually defective given this positive alarm?</h4>
+            <div class="quiz-options" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+              <button class="quiz-opt" onclick="checkDetectiveAnswer(this, false, 'Too high! Remember the Base Rate Fallacy.')">
+                <span class="opt-letter">A</span> 90.0%
+              </button>
+              <button class="quiz-opt" onclick="checkDetectiveAnswer(this, true, 'Correct! P(Wear|+) = (0.90*0.02) / (0.90*0.02 + 0.05*0.98) = 0.018 / 0.067 ≈ 26.9%')">
+                <span class="opt-letter">B</span> 26.9%
+              </button>
+              <button class="quiz-opt" onclick="checkDetectiveAnswer(this, false, 'Incorrect calculation of the denominator evidence P(+).')">
+                <span class="opt-letter">C</span> 45.0%
+              </button>
+              <button class="quiz-opt" onclick="checkDetectiveAnswer(this, false, 'Way too low! 0.02 is only the prior probability.')">
+                <span class="opt-letter">D</span> 2.0%
+              </button>
+            </div>
+            <div id="detective-feedback" class="solution-box"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GAME 4: SPEED QUIZ BLITZ -->
+      <div id="game-mode-blitz" class="game-container" style="display:none;">
+        <div class="game-card">
+          <div class="game-hud">
+            <div class="hud-item">
+              <span class="hud-label">Blitz Timer</span>
+              <span class="hud-value" id="blitz-timer">60s</span>
+            </div>
+            <div class="hud-item">
+              <span class="hud-label">Streak</span>
+              <span class="hud-value" id="blitz-streak">0x 🔥</span>
+            </div>
+            <div class="hud-item">
+              <span class="hud-label">Blitz Score</span>
+              <span class="hud-value" id="blitz-score">0</span>
+            </div>
+            <div class="hud-item">
+              <button class="btn btn-cyan" onclick="startBlitzRound()">▶ Start Blitz</button>
+            </div>
+          </div>
+
+          <div id="blitz-question-card" style="background: rgba(15,23,42,0.8); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 24px; text-align: center;">
+            <p style="font-size: 15px; color: var(--text-muted);">Click "Start Blitz" to begin rapid-fire KTU syllabus questions!</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- TAB 3: SOLUTION QUIZ ARENA                 -->
+    <!-- ========================================== -->
+    <section id="tab-quizzes" class="tab-section">
+      <div class="hero-banner">
+        <div class="hero-content">
+          <h1>🎯 Solution Quiz Arena</h1>
+          <p>Authentic KTU exam problems with instant evaluation and detailed step-by-step mathematical derivations.</p>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-badge">
+            <div class="stat-num" id="quiz-answered-count">0 / 8</div>
+            <div class="stat-lbl">Completed</div>
+          </div>
+          <div class="stat-badge">
+            <div class="stat-num" id="quiz-score-val">0 pts</div>
+            <div class="stat-lbl">Score</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module Filter -->
+      <div class="filter-bar">
+        <div class="pill-selector" style="margin-bottom:0;">
+          <button class="pill-btn active" onclick="filterQuiz('all')">All Questions</button>
+          <button class="pill-btn" onclick="filterQuiz('m1')">Module 1 (AI & ML)</button>
+          <button class="pill-btn" onclick="filterQuiz('m2')">Module 2 (Linear Algebra & SVD)</button>
+          <button class="pill-btn" onclick="filterQuiz('m3')">Module 3 (Probability & Bayes)</button>
+          <button class="pill-btn" onclick="filterQuiz('m4')">Module 4 (Algorithms & Eval)</button>
+        </div>
+      </div>
+
+      <!-- Quiz Questions Container -->
+      <div id="quiz-list-container">
+        <!-- Questions injected via JavaScript -->
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- TAB 4: COURSE VIVA & EXAMINER DEFENSE      -->
+    <!-- ========================================== -->
+    <section id="tab-viva" class="tab-section">
+      <div class="hero-banner">
+        <div class="hero-content">
+          <h1>👔 Course Viva & Examiner Defense Simulator</h1>
+          <p>Master oral examination defense, high-yield faculty interview questions, mathematical derivations, and counter-question traps.</p>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-badge">
+            <div class="stat-num">12</div>
+            <div class="stat-lbl">Viva Questions</div>
+          </div>
+          <div class="stat-badge">
+            <div class="stat-num">100%</div>
+            <div class="stat-lbl">Derived Keys</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="filter-bar">
+        <input type="text" id="viva-search-input" class="search-input" placeholder="🔍 Search viva questions (e.g. SVD, Bayes, XOR, Overfitting)..." oninput="searchVivaQuestions(this.value)">
+        <div class="btn-group">
+          <button class="btn btn-outline" onclick="expandAllViva(true)">Expand All Answers</button>
+          <button class="btn btn-outline" onclick="expandAllViva(false)">Collapse All</button>
+        </div>
+      </div>
+
+      <!-- Viva Questions List -->
+      <div id="viva-cards-container">
+        <!-- Injected via JavaScript -->
+      </div>
+    </section>
+
+
+    <!-- ========================================== -->
+    <!-- TAB 5: KTU SYLLABUS & COURSE MAP          -->
+    <!-- ========================================== -->
+    <section id="tab-syllabus" class="tab-section">
+      <div class="hero-banner">
+        <div class="hero-content">
+          <h1>📋 APJ Abdul Kalam Technological University Syllabus</h1>
+          <p>Official 44-contact-hour course structure, Course Outcomes (CO1–CO4), Bloom's Taxonomy, and evaluation mapping.</p>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-badge">
+            <div class="stat-num">44</div>
+            <div class="stat-lbl">Contact Hours</div>
+          </div>
+          <div class="stat-badge">
+            <div class="stat-num">4</div>
+            <div class="stat-lbl">Credits (3:1:0)</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
+        <!-- Module 1 -->
+        <div class="viva-card">
+          <div class="viva-header">
+            <div class="viva-title">Module 1: Foundations of AI & Machine Learning</div>
+            <span class="viva-badge" style="background:rgba(99,102,241,0.2); color:#a5b4fc; border-color:#6366f1;">11 Hours • CO1</span>
+          </div>
+          <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Bloom Taxonomy: Levels 1, 2, 3 (Remember, Understand, Apply)</p>
+          <ul style="font-size:13px; color:#cbd5e1; line-height:1.6; margin-left:18px;">
+            <li>Introduction to Artificial Intelligence: Definitions, Turing Test, State Space Search, Heuristic Search ($A^*$ Algorithm).</li>
+            <li>Machine Learning paradigms: Supervised, Unsupervised, Reinforcement Learning.</li>
+            <li>Single-Layer Perceptron: Architecture, Linear Separability, Perceptron Learning Rule, Proof of Convergence.</li>
+            <li>Multi-Layer Perceptron (MLP): Activation functions (Sigmoid, ReLU, Tanh), Forward pass, Backpropagation gradient derivation.</li>
+            <li>Loss functions: Mean Squared Error (MSE), Binary Cross-Entropy.</li>
+          </ul>
+        </div>
+
+        <!-- Module 2 -->
+        <div class="viva-card">
+          <div class="viva-header">
+            <div class="viva-title">Module 2: Linear Algebra, SVD & PCA</div>
+            <span class="viva-badge" style="background:rgba(6,182,212,0.2); color:#67e8f9; border-color:#06b6d4;">11 Hours • CO2</span>
+          </div>
+          <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Bloom Taxonomy: Levels 2, 3, 4 (Understand, Apply, Analyze)</p>
+          <ul style="font-size:13px; color:#cbd5e1; line-height:1.6; margin-left:18px;">
+            <li>Vector Spaces, Linear Independence, Basis, Rank of a Matrix, Inner Products and Norms.</li>
+            <li>Eigenvalues and Eigenvectors: Characteristic equation $\det(A - \lambda I) = 0$, Geometric interpretation.</li>
+            <li>Singular Value Decomposition (SVD): $X = U \Sigma V^T$, Left/Right Singular vectors, Singular values.</li>
+            <li>Principal Component Analysis (PCA): Covariance matrix $\Sigma$, Maximizing variance, Dimensionality reduction, Low-rank matrix approximation.</li>
+          </ul>
+        </div>
+
+        <!-- Module 3 -->
+        <div class="viva-card">
+          <div class="viva-header">
+            <div class="viva-title">Module 3: Probability, Bayes & Continuous Distributions</div>
+            <span class="viva-badge" style="background:rgba(16,185,129,0.2); color:#6ee7b7; border-color:#10b981;">11 Hours • CO3</span>
+          </div>
+          <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Bloom Taxonomy: Levels 2, 3 (Understand, Apply)</p>
+          <ul style="font-size:13px; color:#cbd5e1; line-height:1.6; margin-left:18px;">
+            <li>Random variables, Probability mass/density functions, Expectation and Variance.</li>
+            <li>Joint, Marginal, and Conditional probability: Chain Rule, Law of Total Probability.</li>
+            <li>Bayes' Theorem: Prior, Likelihood, Evidence, Posterior. Naive Bayes Classifier and Conditional Independence Assumption.</li>
+            <li>Continuous Distributions: Gaussian (Normal) Distribution, Central Limit Theorem (CLT), Maximum Likelihood Estimation (MLE).</li>
+          </ul>
+        </div>
+
+        <!-- Module 4 -->
+        <div class="viva-card">
+          <div class="viva-header">
+            <div class="viva-title">Module 4: Supervised, Unsupervised Learning & Real-World AI</div>
+            <span class="viva-badge" style="background:rgba(245,158,11,0.2); color:#fcd34d; border-color:#f59e0b;">11 Hours • CO4</span>
+          </div>
+          <p style="font-size:12px; color:var(--text-muted); margin-bottom:12px;">Bloom Taxonomy: Levels 2, 3, 4 (Understand, Apply, Evaluate)</p>
+          <ul style="font-size:13px; color:#cbd5e1; line-height:1.6; margin-left:18px;">
+            <li>Linear Regression: Ordinary Least Squares (OLS) closed-form solution and Gradient Descent.</li>
+            <li>Logistic Regression: Sigmoid transformation, Log-Odds (Logit), Decision Boundary.</li>
+            <li>K-Means Clustering: Algorithm steps, Lloyd's heuristic, Voronoi partitioning, Elbow method.</li>
+            <li>Model Evaluation: Confusion Matrix, Precision, Recall, F1-Score, ROC Curve, AUC, Bias-Variance Tradeoff.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Academic Footer -->
+  <footer>
+    <div>
+      <span style="font-weight:700; color:#e2e8f0;">APJ Abdul Kalam Technological University (KTU), Kerala</span> • 
+      <span>Course Code: GNEST305 Introduction to AI & Data Science (2024 Scheme)</span>
+    </div>
+    <div>
+      <span>CIE: 40 Marks | ESE: 60 Marks (2.5h)</span> • 
+      <span style="color:var(--cyan-primary);">Interactive Academic Portal</span>
+    </div>
+  </footer>
+
+
+  <!-- ========================================== -->
+  <!-- JAVASCRIPT LOGIC                           -->
+  <!-- ========================================== -->
+  <script>
+    /* Web Audio Sound Synthesizer */
+    class SoundManager {
+      constructor() {
+        this.enabled = true;
+        this.ctx = null;
+      }
+      init() {
+        if (!this.ctx) {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (AudioContext) this.ctx = new AudioContext();
+        }
+      }
+      toggleSound() {
+        this.enabled = !this.enabled;
+        document.getElementById('sound-status').innerText = this.enabled ? 'ON' : 'OFF';
+        document.getElementById('sound-icon').innerText = this.enabled ? '🔊' : '🔇';
+      }
+      playTone(freq, type, duration) {
+        if (!this.enabled) return;
+        this.init();
+        if (!this.ctx) return;
+        try {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = type || 'sine';
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+          gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + duration);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start();
+          osc.stop(this.ctx.currentTime + duration);
+        } catch (e) {}
+      }
+      playCorrect() {
+        this.playTone(523.25, 'sine', 0.15); // C5
+        setTimeout(() => this.playTone(659.25, 'sine', 0.25), 100); // E5
+      }
+      playWrong() {
+        this.playTone(220, 'sawtooth', 0.25);
+      }
+      playWin() {
+        this.playTone(440, 'triangle', 0.1);
+        setTimeout(() => this.playTone(554.37, 'triangle', 0.1), 100);
+        setTimeout(() => this.playTone(659.25, 'triangle', 0.25), 200);
+      }
+    }
+    const soundManager = new SoundManager();
+
+    /* Navigation Controller */
+    function switchMainTab(tabId) {
+      document.querySelectorAll('.tab-section').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+      
+      const targetSec = document.getElementById('tab-' + tabId);
+      const targetBtn = document.querySelector(`.nav-btn[data-tab="${tabId}"]`);
+      if (targetSec) targetSec.classList.add('active');
+      if (targetBtn) targetBtn.classList.add('active');
+
+      if (tabId === 'demos') {
+        setTimeout(initActiveLabCanvas, 50);
+      } else if (tabId === 'games') {
+        setTimeout(initActiveGameCanvas, 50);
+      }
+    }
+
+    function switchDemoLab(labId) {
+      document.querySelectorAll('.demo-sublab').forEach(el => el.style.display = 'none');
+      const target = document.getElementById('demo-lab-' + labId);
+      if (target) target.style.display = 'block';
+
+      document.querySelectorAll('#tab-demos .pill-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      setTimeout(initActiveLabCanvas, 50);
+    }
+
+    function switchGameMode(gameId) {
+      document.querySelectorAll('.game-container').forEach(el => el.style.display = 'none');
+      const target = document.getElementById('game-mode-' + gameId);
+      if (target) target.style.display = 'block';
+
+      document.querySelectorAll('#tab-games .pill-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+
+      setTimeout(initActiveGameCanvas, 50);
+    }
+
+    /* ---------------------------------------------------- */
+    /* 1. PERCEPTRON LAB IMPLEMENTATION                     */
+    /* ---------------------------------------------------- */
+    let pPoints = [];
+    let pW1 = 1.2, pW2 = -1.5, pB = 0.2;
+
+    function initPerceptronPoints() {
+      pPoints = [];
+      // Generate two separable clusters
+      for (let i = 0; i < 15; i++) {
+        pPoints.push({ x: -1.8 + Math.random() * 1.5, y: -1.5 + Math.random() * 1.5, label: -1 });
+        pPoints.push({ x: 0.5 + Math.random() * 1.5, y: 0.5 + Math.random() * 1.5, label: 1 });
+      }
+      drawPerceptronCanvas();
+    }
+
+    function resetPerceptronPoints() {
+      initPerceptronPoints();
+    }
+
+    function updatePerceptron() {
+      pW1 = parseFloat(document.getElementById('slider-p-w1').value);
+      pW2 = parseFloat(document.getElementById('slider-p-w2').value);
+      pB = parseFloat(document.getElementById('slider-p-b').value);
+
+      document.getElementById('val-p-w1').innerText = pW1.toFixed(1);
+      document.getElementById('val-p-w2').innerText = pW2.toFixed(1);
+      document.getElementById('val-p-b').innerText = pB.toFixed(1);
+
+      drawPerceptronCanvas();
+    }
+
+    function drawPerceptronCanvas() {
+      const cvs = document.getElementById('perceptronCanvas');
+      if (!cvs) return;
+      const ctx = cvs.getContext('2d');
+      const w = cvs.width, h = cvs.height;
+      ctx.clearRect(0, 0, w, h);
+
+      // Coordinate transform: (-3, -3) to (3, 3) mapped to (0,0)-(w,h)
+      const toX = x => (x + 3) / 6 * w;
+      const toY = y => h - (y + 3) / 6 * h;
+      const fromX = px => (px / w) * 6 - 3;
+      const fromY = py => ((h - py) / h) * 6 - 3;
+
+      // Draw Grid & Axes
+      ctx.strokeStyle = '#1e293b';
+      ctx.lineWidth = 1;
+      for (let i = -3; i <= 3; i++) {
+        ctx.beginPath(); ctx.moveTo(toX(i), 0); ctx.lineTo(toX(i), h); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(0, toY(i)); ctx.lineTo(w, toY(i)); ctx.stroke();
+      }
+      ctx.strokeStyle = '#334155';
+      ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(toX(0), 0); ctx.lineTo(toX(0), h); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, toY(0)); ctx.lineTo(w, toY(0)); ctx.stroke();
+
+      // Shaded decision regions
+      // w1*x + w2*y + b = 0 => y = (-w1*x - b)/w2
+      if (Math.abs(pW2) > 0.001) {
+        ctx.fillStyle = 'rgba(6, 182, 212, 0.07)';
+        ctx.beginPath();
+        ctx.moveTo(0, toY((-pW1 * -3 - pB) / pW2));
+        ctx.lineTo(w, toY((-pW1 * 3 - pB) / pW2));
+        if (pW2 > 0) {
+          ctx.lineTo(w, 0); ctx.lineTo(0, 0);
+        } else {
+          ctx.lineTo(w, h); ctx.lineTo(0, h);
+        }
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      // Draw Hyperplane line
+      ctx.strokeStyle = '#06b6d4';
+      ctx.lineWidth = 3;
+      ctx.shadowColor = 'rgba(6, 182, 212, 0.5)';
+      ctx.shadowBlur = 10;
+      ctx.beginPath();
+      if (Math.abs(pW2) > 0.001) {
+        const yL = (-pW1 * -3 - pB) / pW2;
+        const yR = (-pW1 * 3 - pB) / pW2;
+        ctx.moveTo(toX(-3), toY(yL));
+        ctx.lineTo(toX(3), toY(yR));
+      } else {
+        const xV = -pB / pW1;
+        ctx.moveTo(toX(xV), 0);
+        ctx.lineTo(toX(xV), h);
+      }
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+
+      // Count Accuracy & Draw Points
+      let correct = 0;
+      pPoints.forEach(pt => {
+        const pred = (pW1 * pt.x + pW2 * pt.y + pB) >= 0 ? 1 : -1;
+        const isCorrect = pred === pt.label;
+        if (isCorrect) correct++;
+
+        ctx.beginPath();
+        ctx.arc(toX(pt.x), toY(pt.y), 7, 0, Math.PI * 2);
+        ctx.fillStyle = pt.label === 1 ? '#38bdf8' : '#f43f5e';
+        ctx.fill();
+        ctx.strokeStyle = isCorrect ? '#ffffff' : '#fbbf24';
+        ctx.lineWidth = isCorrect ? 2 : 3;
+        ctx.stroke();
+      });
+
+      const acc = Math.round((correct / Math.max(1, pPoints.length)) * 100);
+      const badge = document.getElementById('perceptron-acc-badge');
+      if (badge) {
+        badge.innerText = `Accuracy: ${acc}% (${correct}/${pPoints.length})`;
+        badge.style.color = acc === 100 ? '#10b981' : acc >= 80 ? '#38bdf8' : '#f43f5e';
+      }
+    }
+
+    function trainPerceptronStep() {
+      const lr = 0.15;
+      let misclassified = false;
+      for (let pt of pPoints) {
+        const pred = (pW1 * pt.x + pW2 * pt.y + pB) >= 0 ? 1 : -1;
+        if (pred !== pt.label) {
+          // Perceptron update: w <- w + lr * y * x
+          pW1 += lr * pt.label * pt.x;
+          pW2 += lr * pt.label * pt.y;
+          pB += lr * pt.label;
+          misclassified = true;
+          break;
+        }
+      }
+      document.getElementById('slider-p-w1').value = pW1;
+      document.getElementById('slider-p-w2').value = pW2;
+      document.getElementById('slider-p-b').value = pB;
+      updatePerceptron();
+      if (!misclassified) soundManager.playWin();
+    }
+
+    let pTrainInterval = null;
+    function autoTrainPerceptron() {
+      if (pTrainInterval) { clearInterval(pTrainInterval); pTrainInterval = null; return; }
+      pTrainInterval = setInterval(() => {
+        let mis = 0;
+        for (let pt of pPoints) {
+          const pred = (pW1 * pt.x + pW2 * pt.y + pB) >= 0 ? 1 : -1;
+          if (pred !== pt.label) mis++;
+        }
+        if (mis === 0) {
+          clearInterval(pTrainInterval);
+          pTrainInterval = null;
+          soundManager.playWin();
+        } else {
+          trainPerceptronStep();
+        }
+      }, 80);
+    }
+
+    // Canvas click event for adding points
+    function setupPerceptronClick() {
+      const cvs = document.getElementById('perceptronCanvas');
+      if (!cvs) return;
+      cvs.addEventListener('click', e => {
+        const rect = cvs.getBoundingClientRect();
+        const px = e.clientX - rect.left;
+        const py = e.clientY - rect.top;
+        const x = (px / cvs.width) * 6 - 3;
+        const y = ((cvs.height - py) / cvs.height) * 6 - 3;
+        pPoints.push({ x, y, label: 1 });
+        drawPerceptronCanvas();
+      });
+      cvs.addEventListener('contextmenu', e => {
+        e.preventDefault();
+        const rect = cvs.getBoundingClientRect();
+        const px = e.clientX - rect.left;
+        const py = e.clientY - rect.top;
+        const x = (px / cvs.width) * 6 - 3;
+        const y = ((cvs.height - py) / cvs.height) * 6 - 3;
+        pPoints.push({ x, y, label: -1 });
+        drawPerceptronCanvas();
+      });
+    }
+
+    /* ---------------------------------------------------- */
+    /* 2. K-MEANS CLUSTERING LAB IMPLEMENTATION             */
+    /* ---------------------------------------------------- */
+    let kmK = 3;
+    let kmPoints = [];
+    let kmCentroids = [];
+    let kmIter = 0;
+
+    function resetKMeansPoints() {
+      kmPoints = [];
+      kmCentroids = [];
+      kmIter = 0;
+
+      // Generate Gaussian clusters
+      const centers = [
+        { x: -1.5, y: -1.2 }, { x: 1.5, y: -1.0 }, { x: 0.0, y: 1.5 }, { x: -1.8, y: 1.2 }, { x: 1.8, y: 1.2 }
+      ];
+      for (let k = 0; k < kmK; k++) {
+        for (let i = 0; i < 18; i++) {
+          kmPoints.push({
+            x: centers[k].x + (Math.random() - 0.5) * 1.2,
+            y: centers[k].y + (Math.random() - 0.5) * 1.2,
+            cluster: -1
+          });
+        }
+        // Random initial centroids
+        kmCentroids.push({
+          x: (Math.random() - 0.5) * 4,
+          y: (Math.random() - 0.5) * 4
+        });
+      }
+      drawKMeansCanvas();
+    }
+
+    function changeKMeansK(val) {
+      kmK = parseInt(val);
+      document.getElementById('val-k-clusters').innerText = kmK;
+      resetKMeansPoints();
+    }
+
+    function stepKMeans() {
+      kmIter++;
+      // E-Step: Assign points to nearest centroid
+      let sse = 0;
+      kmPoints.forEach(pt => {
+        let minDist = Infinity;
+        let bestK = 0;
+        kmCentroids.forEach((c, idx) => {
+          const d2 = (pt.x - c.x) ** 2 + (pt.y - c.y) ** 2;
+          if (d2 < minDist) {
+            minDist = d2;
+            bestK = idx;
+          }
+        });
+        pt.cluster = bestK;
+        sse += minDist;
+      });
+
+      // M-Step: Recompute centroids
+      const counts = new Array(kmK).fill(0);
+      const sums = Array.from({ length: kmK }, () => ({ x: 0, y: 0 }));
+      kmPoints.forEach(pt => {
+        counts[pt.cluster]++;
+        sums[pt.cluster].x += pt.x;
+        sums[pt.cluster].y += pt.y;
+      });
+
+      kmCentroids.forEach((c, idx) => {
+        if (counts[idx] > 0) {
+          c.x = sums[idx].x / counts[idx];
+          c.y = sums[idx].y / counts[idx];
+        }
+      });
+
+      document.getElementById('kmeans-iter-badge').innerText = `Iteration: ${kmIter} • SSE: ${sse.toFixed(2)}`;
+      drawKMeansCanvas();
+      soundManager.playTone(300 + kmIter * 50, 'sine', 0.1);
+    }
+
+    function autoRunKMeans() {
+      for (let i = 0; i < 8; i++) {
+        setTimeout(stepKMeans, i * 150);
+      }
+    }
+
+    const kmColors = ['#06b6d4', '#ec4899', '#10b981', '#f59e0b', '#a855f7'];
+
+    function drawKMeansCanvas() {
+      const cvs = document.getElementById('kmeansCanvas');
+      if (!cvs) return;
+      const ctx = cvs.getContext('2d');
+      const w = cvs.width, h = cvs.height;
+      ctx.clearRect(0, 0, w, h);
+
+      const toX = x => (x + 3) / 6 * w;
+      const toY = y => h - (y + 3) / 6 * h;
+
+      // Draw voronoi background approximation (coarse grid)
+      const res = 15;
+      for (let px = 0; px < w; px += res) {
+        for (let py = 0; py < h; py += res) {
+          const x = (px / w) * 6 - 3;
+          const y = ((h - py) / h) * 6 - 3;
+          let minD = Infinity; let nearK = 0;
+          kmCentroids.forEach((c, idx) => {
+            const d = (x - c.x) ** 2 + (y - c.y) ** 2;
+            if (d < minD) { minD = d; nearK = idx; }
+          });
+          ctx.fillStyle = kmColors[nearK] + '12';
+          ctx.fillRect(px, py, res, res);
+        }
+      }
+
+      // Draw points
+      kmPoints.forEach(pt => {
+        ctx.beginPath();
+        ctx.arc(toX(pt.x), toY(pt.y), 6, 0, Math.PI * 2);
+        ctx.fillStyle = pt.cluster >= 0 ? kmColors[pt.cluster] : '#64748b';
+        ctx.fill();
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      });
+
+      // Draw centroids (Star markers)
+      kmCentroids.forEach((c, idx) => {
+        const cx = toX(c.x);
+        const cy = toY(c.y);
+        ctx.shadowColor = kmColors[idx];
+        ctx.shadowBlur = 12;
+        ctx.fillStyle = '#ffffff';
+        ctx.strokeStyle = kmColors[idx];
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.arc(cx, cy, 11, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        ctx.fillStyle = kmColors[idx];
+        ctx.font = 'bold 12px Inter';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('★', cx, cy);
+        ctx.shadowBlur = 0;
+      });
+    }
+
+    /* ---------------------------------------------------- */
+    /* 3. PCA & SVD LAB IMPLEMENTATION                      */
+    /* ---------------------------------------------------- */
+    let pcaAngle = 35;
+    let pcaProj = 0;
+    let pcaData = [];
+
+    function generatePCAData() {
+      pcaData = [];
+      const rad = (pcaAngle * Math.PI) / 180;
+      const cos = Math.cos(rad);
+      const sin = Math.sin(rad);
+      const spreadX = 2.0;
+      const spreadY = 0.5;
+
+      for (let i = 0; i < 45; i++) {
+        const u = (Math.random() - 0.5) * spreadX * 2;
+        const v = (Math.random() - 0.5) * spreadY * 2;
+        const x = u * cos - v * sin;
+        const y = u * sin + v * cos;
+        pcaData.push({ x, y, u, v });
+      }
+      drawPCACanvas();
+    }
+
+    function updatePCAData() {
+      pcaAngle = parseInt(document.getElementById('slider-pca-angle').value);
+      document.getElementById('val-pca-angle').innerText = pcaAngle + '°';
+      generatePCAData();
+    }
+
+    function togglePCAProjection(val) {
+      pcaProj = parseInt(val);
+      document.getElementById('val-pca-proj').innerText = pcaProj === 1 ? '1D Subspace' : 'Full 2D';
+      drawPCACanvas();
+    }
+
+    function randomizePCA() {
+      generatePCAData();
+    }
+
+    function drawPCACanvas() {
+      const cvs = document.getElementById('pcaCanvas');
+      if (!cvs) return;
+      const ctx = cvs.getContext('2d');
+      const w = cvs.width, h = cvs.height;
+      ctx.clearRect(0, 0, w, h);
+
+      const toX = x => (x + 3) / 6 * w;
+      const toY = y => h - (y + 3) / 6 * h;
+
+      // Draw Axes
+      ctx.strokeStyle = '#1e293b';
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(toX(0), 0); ctx.lineTo(toX(0), h); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, toY(0)); ctx.lineTo(w, toY(0)); ctx.stroke();
+
+      const rad = (pcaAngle * Math.PI) / 180;
+      const v1x = Math.cos(rad);
+      const v1y = Math.sin(rad);
+      const v2x = -Math.sin(rad);
+      const v2y = Math.cos(rad);
+
+      // Draw Principal Axis 1
+      ctx.strokeStyle = 'rgba(6, 182, 212, 0.7)';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(toX(-v1x * 3), toY(-v1y * 3));
+      ctx.lineTo(toX(v1x * 3), toY(v1y * 3));
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Draw Eigenvector v1
+      ctx.strokeStyle = '#06b6d4';
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(toX(0), toY(0));
+      ctx.lineTo(toX(v1x * 2), toY(v1y * 2));
+      ctx.stroke();
+
+      // Draw Eigenvector v2
+      ctx.strokeStyle = '#ec4899';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(toX(0), toY(0));
+      ctx.lineTo(toX(v2x * 0.8), toY(v2y * 0.8));
+      ctx.stroke();
+
+      // Draw points & projections
+      pcaData.forEach(pt => {
+        const projDot = pt.x * v1x + pt.y * v1y;
+        const projX = projDot * v1x;
+        const projY = projDot * v1y;
+
+        if (pcaProj === 1) {
+          // Orthogonal projection line
+          ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(toX(pt.x), toY(pt.y));
+          ctx.lineTo(toX(projX), toY(projY));
+          ctx.stroke();
+
+          // Projected point on 1D line
+          ctx.beginPath();
+          ctx.arc(toX(projX), toY(projY), 5, 0, Math.PI * 2);
+          ctx.fillStyle = '#06b6d4';
+          ctx.fill();
+        } else {
+          // Original 2D point
+          ctx.beginPath();
+          ctx.arc(toX(pt.x), toY(pt.y), 5, 0, Math.PI * 2);
+          ctx.fillStyle = '#a5b4fc';
+          ctx.fill();
+        }
+      });
+    }
+
+    /* ---------------------------------------------------- */
+    /* 4. BAYES DIAGNOSTIC LAB IMPLEMENTATION               */
+    /* ---------------------------------------------------- */
+    function updateBayesLab() {
+      const prior = parseFloat(document.getElementById('slider-bayes-prior').value) / 100;
+      const sens = parseFloat(document.getElementById('slider-bayes-sens').value) / 100;
+      const fpr = parseFloat(document.getElementById('slider-bayes-fpr').value) / 100;
+
+      document.getElementById('val-bayes-prior').innerText = (prior * 100).toFixed(1) + '%';
+      document.getElementById('val-bayes-sens').innerText = (sens * 100).toFixed(0) + '%';
+      document.getElementById('val-bayes-fpr').innerText = (fpr * 100).toFixed(0) + '%';
+
+      // Bayes formula: P(D|+) = [P(+|D)*P(D)] / [P(+|D)*P(D) + P(+|D^c)*P(D^c)]
+      const pPosGivenD = sens;
+      const pPosGivenNotD = fpr;
+      const pD = prior;
+      const pNotD = 1 - prior;
+
+      const numerator = pPosGivenD * pD;
+      const denominator = numerator + pPosGivenNotD * pNotD;
+      const posterior = (numerator / denominator) * 100;
+
+      document.getElementById('bayes-posterior-badge').innerText = `Posterior P(Defect | +): ${posterior.toFixed(1)}%`;
+      drawBayesCanvas(prior, sens, fpr, posterior);
+    }
+
+    function drawBayesCanvas(prior, sens, fpr, posterior) {
+      const cvs = document.getElementById('bayesCanvas');
+      if (!cvs) return;
+      const ctx = cvs.getContext('2d');
+      const w = cvs.width, h = cvs.height;
+      ctx.clearRect(0, 0, w, h);
+
+      // Draw Tree Diagram
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 13px Inter';
+      ctx.textAlign = 'left';
+
+      // Root: 10,000 units
+      const total = 10000;
+      const numDefective = Math.round(total * prior);
+      const numHealthy = total - numDefective;
+
+      const tp = Math.round(numDefective * sens);
+      const fn = numDefective - tp;
+      const fp = Math.round(numHealthy * fpr);
+      const tn = numHealthy - fp;
+
+      // Draw 2x2 Contingency Matrix
+      ctx.fillStyle = '#1e293b';
+      ctx.fillRect(40, 40, w - 80, 220);
+      ctx.strokeStyle = '#334155';
+      ctx.strokeRect(40, 40, w - 80, 220);
+
+      ctx.fillStyle = '#f8fafc';
+      ctx.font = '14px Inter';
+      ctx.fillText(`Population: ${total} Engine Bearings`, 60, 70);
+
+      ctx.fillStyle = '#06b6d4';
+      ctx.fillText(`Defective Tools: ${numDefective} (${(prior * 100).toFixed(1)}%)`, 60, 110);
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '12px Inter';
+      ctx.fillText(`• True Positives (Alarm & Defect): ${tp}`, 80, 135);
+      ctx.fillText(`• False Negatives (Missed Defect): ${fn}`, 80, 155);
+
+      ctx.fillStyle = '#10b981';
+      ctx.font = '14px Inter';
+      ctx.fillText(`Healthy Tools: ${numHealthy}`, 320, 110);
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '12px Inter';
+      ctx.fillText(`• False Positives (Alarm on Healthy): ${fp}`, 340, 135);
+      ctx.fillText(`• True Negatives (No Alarm): ${tn}`, 340, 155);
+
+      // Total Alarms bar
+      const totalAlarms = tp + fp;
+      ctx.fillStyle = '#f8fafc';
+      ctx.font = 'bold 14px Inter';
+      ctx.fillText(`Total Positive Alarms (+): ${totalAlarms}`, 60, 210);
+
+      // Posterior Visual Bar
+      ctx.fillStyle = '#0f172a';
+      ctx.fillRect(60, 290, w - 120, 36);
+      ctx.strokeStyle = '#334155';
+      ctx.strokeRect(60, 290, w - 120, 36);
+
+      const barW = (w - 120) * (posterior / 100);
+      ctx.fillStyle = 'rgba(244, 63, 94, 0.8)';
+      ctx.fillRect(60, 290, barW, 36);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 13px Inter';
+      ctx.textAlign = 'center';
+      ctx.fillText(`Posterior Probability: ${posterior.toFixed(1)}% True Defects`, w / 2, 312);
+
+      ctx.font = '11px Inter';
+      ctx.fillStyle = '#94a3b8';
+      ctx.fillText(`Note: Out of ${totalAlarms} alarms, only ${tp} are actual defects due to the low prior base rate!`, w / 2, 350);
+    }
+
+    /* ---------------------------------------------------- */
+    /* 5. GRADIENT DESCENT LAB IMPLEMENTATION               */
+    /* ---------------------------------------------------- */
+    let gdW1 = -2.2, gdW2 = 2.0;
+    let gdHistory = [];
+    let gdLr = 0.08, gdMom = 0.2;
+    let gdV1 = 0, gdV2 = 0;
+
+    function resetGD() {
+      gdW1 = -2.2; gdW2 = 2.0;
+      gdV1 = 0; gdV2 = 0;
+      gdHistory = [{ w1: gdW1, w2: gdW2 }];
+      drawGDCanvas();
+    }
+
+    function updateGDParams() {
+      gdLr = parseFloat(document.getElementById('slider-gd-lr').value);
+      gdMom = parseFloat(document.getElementById('slider-gd-mom').value);
+      document.getElementById('val-gd-lr').innerText = gdLr.toFixed(2);
+      document.getElementById('val-gd-mom').innerText = gdMom.toFixed(2);
+    }
+
+    function stepGD() {
+      // Cost function: J(w1, w2) = w1^2 + 2*w2^2 (minimum at 0,0)
+      const gradW1 = 2 * gdW1;
+      const gradW2 = 4 * gdW2;
+
+      gdV1 = gdMom * gdV1 - gdLr * gradW1;
+      gdV2 = gdMom * gdV2 - gdLr * gradW2;
+
+      gdW1 += gdV1;
+      gdW2 += gdV2;
+      gdHistory.push({ w1: gdW1, w2: gdW2 });
+
+      const loss = gdW1 ** 2 + 2 * (gdW2 ** 2);
+      document.getElementById('gd-iter-badge').innerText = `Steps: ${gdHistory.length - 1} • Loss: ${loss.toFixed(4)}`;
+      drawGDCanvas();
+      soundManager.playTone(400 - Math.min(200, gdHistory.length * 10), 'sine', 0.08);
+    }
+
+    function autoRunGD() {
+      for (let i = 0; i < 20; i++) {
+        setTimeout(stepGD, i * 80);
+      }
+    }
+
+    function drawGDCanvas() {
+      const cvs = document.getElementById('gradientCanvas');
+      if (!cvs) return;
+      const ctx = cvs.getContext('2d');
+      const w = cvs.width, h = cvs.height;
+      ctx.clearRect(0, 0, w, h);
+
+      const toX = x => (x + 3) / 6 * w;
+      const toY = y => h - (y + 3) / 6 * h;
+
+      // Draw contour ellipses for J = w1^2 + 2*w2^2
+      const levels = [0.5, 1.2, 2.5, 4.5, 7.5, 12];
+      ctx.lineWidth = 1;
+      levels.forEach(val => {
+        const r1 = Math.sqrt(val);
+        const r2 = Math.sqrt(val / 2);
+        ctx.strokeStyle = 'rgba(99, 102, 241, 0.25)';
+        ctx.beginPath();
+        ctx.ellipse(toX(0), toY(0), (r1 / 6) * w, (r2 / 6) * h, 0, 0, Math.PI * 2);
+        ctx.stroke();
+      });
+
+      // Target Minimum Marker
+      ctx.fillStyle = '#10b981';
+      ctx.beginPath();
+      ctx.arc(toX(0), toY(0), 6, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Draw trajectory path
+      if (gdHistory.length > 1) {
+        ctx.strokeStyle = '#06b6d4';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.moveTo(toX(gdHistory[0].w1), toY(gdHistory[0].w2));
+        for (let i = 1; i < gdHistory.length; i++) {
+          ctx.lineTo(toX(gdHistory[i].w1), toY(gdHistory[i].w2));
+        }
+        ctx.stroke();
+      }
+
+      // Draw points along path
+      gdHistory.forEach((pt, idx) => {
+        ctx.beginPath();
+        ctx.arc(toX(pt.w1), toY(pt.y || pt.w2), idx === gdHistory.length - 1 ? 7 : 3, 0, Math.PI * 2);
+        ctx.fillStyle = idx === gdHistory.length - 1 ? '#ec4899' : '#06b6d4';
+        ctx.fill();
+      });
+    }
+
+    /* ---------------------------------------------------- */
+    /* GAMES IMPLEMENTATION                                 */
+    /* ---------------------------------------------------- */
+    // Game 1: Hyperplane Slicer
+    let g1Timer = 30, g1TimerId = null, g1Score = 0;
+    let g1Points = [];
+    let g1W1 = 1, g1W2 = -1, g1B = 0;
+
+    function startGame1() {
+      g1Timer = 30;
+      g1Score = 0;
+      document.getElementById('game1-score').innerText = '0';
+      document.getElementById('game1-timer').innerText = '30s';
+      g1Points = [];
+
+      for (let i = 0; i < 10; i++) {
+        g1Points.push({ x: -2.0 + Math.random() * 1.5, y: -1.5 + Math.random() * 1.5, label: -1 });
+        g1Points.push({ x: 0.5 + Math.random() * 1.5, y: 0.5 + Math.random() * 1.5, label: 1 });
+      }
+
+      if (g1TimerId) clearInterval(g1TimerId);
+      g1TimerId = setInterval(() => {
+        g1Timer--;
+        document.getElementById('game1-timer').innerText = g1Timer + 's';
+        if (g1Timer <= 0) {
+          clearInterval(g1TimerId);
+          soundManager.playWrong();
+          alert(`Game Over! Final Round Score: ${g1Score}`);
+        }
+      }, 1000);
+
+      updateGame1Plane();
+      soundManager.playTone(440, 'triangle', 0.2);
+    }
+
+    function updateGame1Plane() {
+      g1W1 = parseFloat(document.getElementById('g1-slider-w1').value);
+      g1W2 = parseFloat(document.getElementById('g1-slider-w2').value);
+      g1B = parseFloat(document.getElementById('g1-slider-b').value);
+
+      document.getElementById('g1-val-w1').innerText = g1W1.toFixed(1);
+      document.getElementById('g1-val-w2').innerText = g1W2.toFixed(1);
+      document.getElementById('g1-val-b').innerText = g1B.toFixed(1);
+
+      drawGame1();
+    }
+
+    function drawGame1() {
+      const cvs = document.getElementById('game1Canvas');
+      if (!cvs) return;
+      const ctx = cvs.getContext('2d');
+      const w = cvs.width, h = cvs.height;
+      ctx.clearRect(0, 0, w, h);
+
+      const toX = x => (x + 3) / 6 * w;
+      const toY = y => h - (y + 3) / 6 * h;
+
+      // Draw hyperplane line
+      ctx.strokeStyle = '#a855f7';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      if (Math.abs(g1W2) > 0.001) {
+        ctx.moveTo(toX(-3), toY((-g1W1 * -3 - g1B) / g1W2));
+        ctx.lineTo(toX(3), toY((-g1W1 * 3 - g1B) / g1W2));
+      }
+      ctx.stroke();
+
+      let correct = 0;
+      g1Points.forEach(pt => {
+        const pred = (g1W1 * pt.x + g1W2 * pt.y + g1B) >= 0 ? 1 : -1;
+        const isOk = pred === pt.label;
+        if (isOk) correct++;
+
+        ctx.beginPath();
+        ctx.arc(toX(pt.x), toY(pt.y), 7, 0, Math.PI * 2);
+        ctx.fillStyle = pt.label === 1 ? '#38bdf8' : '#f43f5e';
+        ctx.fill();
+        ctx.strokeStyle = isOk ? '#ffffff' : '#fbbf24';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      });
+
+      const acc = g1Points.length > 0 ? Math.round((correct / g1Points.length) * 100) : 0;
+      document.getElementById('game1-acc').innerText = acc + '%';
+
+      if (acc === 100 && g1Timer > 0) {
+        g1Score += 100 + g1Timer * 5;
+        document.getElementById('game1-score').innerText = g1Score;
+        clearInterval(g1TimerId);
+        soundManager.playWin();
+        alert('🎉 Level Cleared! 100% Separation achieved!');
+      }
+    }
+
+    // Game 2: Eigen-Hunter
+    let eigenTheta = 45;
+    let eigenMat = [[2, 1], [1, 2]];
+
+    function startNewEigenMatrix() {
+      const a = Math.floor(Math.random() * 3) + 1;
+      const b = 1;
+      eigenMat = [[a, b], [b, a]];
+      document.getElementById('game2-matrix').innerText = `[ [${a}, ${b}], [${b}, ${a}] ]`;
+      document.getElementById('eigen-success-banner').style.display = 'none';
+      drawGame2();
+    }
+
+    function updateEigenGame(val) {
+      eigenTheta = parseInt(val);
+      document.getElementById('g2-val-theta').innerText = eigenTheta + '°';
+      drawGame2();
+    }
+
+    function drawGame2() {
+      const cvs = document.getElementById('game2Canvas');
+      if (!cvs) return;
+      const ctx = cvs.getContext('2d');
+      const w = cvs.width, h = cvs.height;
+      ctx.clearRect(0, 0, w, h);
+
+      const cx = w / 2, cy = h / 2;
+      const scale = 50;
+
+      // Draw Unit Circle
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.arc(cx, cy, scale, 0, Math.PI * 2);
+      ctx.stroke();
+
+      const rad = (eigenTheta * Math.PI) / 180;
+      const vx = Math.cos(rad);
+      const vy = Math.sin(rad);
+
+      // Transformed vector Av
+      const avX = eigenMat[0][0] * vx + eigenMat[0][1] * vy;
+      const avY = eigenMat[1][0] * vx + eigenMat[1][1] * vy;
+
+      // Draw vector v (cyan)
+      ctx.strokeStyle = '#06b6d4';
+      ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + vx * scale, cy - vy * scale);
+      ctx.stroke();
+
+      // Draw vector Av (magenta)
+      ctx.strokeStyle = '#ec4899';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + avX * scale, cy - avY * scale);
+      ctx.stroke();
+
+      // Check alignment (cross product)
+      const cross = Math.abs(vx * avY - vy * avX);
+      const angleErr = Math.asin(Math.min(1, cross / Math.sqrt(avX ** 2 + avY ** 2))) * (180 / Math.PI);
+      document.getElementById('game2-error').innerText = angleErr.toFixed(1) + '°';
+
+      if (angleErr < 3.0) {
+        const lambda = Math.sqrt(avX ** 2 + avY ** 2).toFixed(2);
+        document.getElementById('locked-eigenvalue').innerText = lambda;
+        document.getElementById('eigen-success-banner').style.display = 'block';
+        soundManager.playCorrect();
+      } else {
+        document.getElementById('eigen-success-banner').style.display = 'none';
+      }
+    }
+
+    // Game 3: Bayes Detective answer check
+    function checkDetectiveAnswer(btn, isCorrect, explanation) {
+      const box = document.getElementById('detective-feedback');
+      box.classList.add('visible');
+      if (isCorrect) {
+        btn.classList.add('correct');
+        box.innerHTML = `<span style="color:#10b981; font-weight:700;">CASE SOLVED:</span> ${explanation}`;
+        soundManager.playWin();
+      } else {
+        btn.classList.add('incorrect');
+        box.innerHTML = `<span style="color:#f43f5e; font-weight:700;">INCORRECT DEDUCTION:</span> ${explanation}`;
+        soundManager.playWrong();
+      }
+    }
+
+    // Game 4: Speed Quiz Blitz
+    const blitzQuestions = [
+      { q: "What is the primary reason the single-layer perceptron cannot solve the XOR problem?", a: ["Non-linearly separable", "Too few epochs", "High learning rate", "Vanishing gradients"], c: 0 },
+      { q: "In PCA, the principal components are the eigenvectors of which matrix?", a: ["Hessian Matrix", "Covariance Matrix", "Laplacian Matrix", "Identity Matrix"], c: 1 },
+      { q: "In K-Means, what is guaranteed to monotonically decrease on each iteration?", a: ["Number of clusters", "Inertia (Sum of Squared Errors)", "Execution runtime", "Centroid velocity"], c: 1 },
+      { q: "Which property does SVD possess over standard Eigendecomposition?", a: ["Works on any m×n rectangular matrix", "Requires positive definite matrix", "Computes complex values only", "Cannot be inverted"], c: 0 }
+    ];
+    let blitzIdx = 0, blitzTimer = 60, blitzTimerId = null, blitzStreak = 0, blitzScore = 0;
+
+    function startBlitzRound() {
+      blitzIdx = 0; blitzTimer = 60; blitzStreak = 0; blitzScore = 0;
+      document.getElementById('blitz-streak').innerText = '0x 🔥';
+      document.getElementById('blitz-score').innerText = '0';
+      if (blitzTimerId) clearInterval(blitzTimerId);
+
+      blitzTimerId = setInterval(() => {
+        blitzTimer--;
+        document.getElementById('blitz-timer').innerText = blitzTimer + 's';
+        if (blitzTimer <= 0) {
+          clearInterval(blitzTimerId);
+          soundManager.playWrong();
+          alert(`Time's up! Final Blitz Score: ${blitzScore}`);
+        }
+      }, 1000);
+
+      renderBlitzQuestion();
+    }
+
+    function renderBlitzQuestion() {
+      const item = blitzQuestions[blitzIdx % blitzQuestions.length];
+      const card = document.getElementById('blitz-question-card');
+      card.innerHTML = `
+        <h3 style="font-size:16px; margin-bottom:16px; color:#f8fafc;">${item.q}</h3>
+        <div class="quiz-options" style="max-width:480px; margin:0 auto;">
+          ${item.a.map((ans, idx) => `
+            <button class="quiz-opt" onclick="answerBlitz(${idx}, ${item.c})">
+              <span class="opt-letter">${String.fromCharCode(65 + idx)}</span> ${ans}
+            </button>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function answerBlitz(chosen, correct) {
+      if (chosen === correct) {
+        blitzStreak++;
+        blitzScore += 10 * blitzStreak;
+        soundManager.playCorrect();
+      } else {
+        blitzStreak = 0;
+        soundManager.playWrong();
+      }
+      document.getElementById('blitz-streak').innerText = `${blitzStreak}x 🔥`;
+      document.getElementById('blitz-score').innerText = blitzScore;
+      blitzIdx++;
+      renderBlitzQuestion();
+    }
+
+
+    /* ---------------------------------------------------- */
+    /* QUIZ ARENA DATA & LOGIC                              */
+    /* ---------------------------------------------------- */
+    const quizDataset = [
+      {
+        id: 1,
+        mod: 'm1',
+        tag: 'Module 1 • Perceptron Learning',
+        bloom: 'Bloom: Level 3 (Apply)',
+        q: "A single perceptron has weights w = [0.4, -0.6] and bias b = 0.1. If the input vector x = [2, 1] is fed with activation function f(z) = 1 if z ≥ 0 else 0, what is the output y?",
+        opts: [
+          "y = 1, because net input z = 0.3 ≥ 0",
+          "y = 0, because net input z = -0.3 < 0",
+          "y = 1, because net input z = 0.5 ≥ 0",
+          "y = 0, because net input z = 0.0"
+        ],
+        correct: 0,
+        solution: "Net input z is calculated as:<br><div class='math-formula'>z = w₁x₁ + w₂x₂ + b = (0.4)(2) + (-0.6)(1) + 0.1 = 0.8 - 0.6 + 0.1 = +0.3</div>Since z = 0.3 ≥ 0, the threshold step activation outputs <b>y = 1</b>."
+      },
+      {
+        id: 2,
+        mod: 'm2',
+        tag: 'Module 2 • Eigenvalues & PCA',
+        bloom: 'Bloom: Level 4 (Analyze)',
+        q: "Given the 2×2 matrix A = [[3, 1], [1, 3]], what are its eigenvalues λ₁ and λ₂?",
+        opts: [
+          "λ₁ = 4, λ₂ = 2",
+          "λ₁ = 3, λ₂ = 1",
+          "λ₁ = 5, λ₂ = 1",
+          "λ₁ = 2, λ₂ = 2"
+        ],
+        correct: 0,
+        solution: "Characteristic equation: det(A - λI) = 0<br><div class='math-formula'>det([[3 - λ, 1], [1, 3 - λ]]) = (3 - λ)² - 1 = 0<br>λ² - 6λ + 9 - 1 = 0  =>  λ² - 6λ + 8 = 0<br>(λ - 4)(λ - 2) = 0  =>  λ₁ = 4, λ₂ = 2</div>"
+      },
+      {
+        id: 3,
+        mod: 'm3',
+        tag: 'Module 3 • Bayes Inversion',
+        bloom: 'Bloom: Level 3 (Apply)',
+        q: "A machine produces 5% defective components. A diagnostic test correctly identifies a defect 90% of the time, but has a 10% false positive rate on good parts. What is the probability that a part tested positive is genuinely defective?",
+        opts: [
+          "32.1%",
+          "90.0%",
+          "5.0%",
+          "50.0%"
+        ],
+        correct: 0,
+        solution: "Using Bayes' Rule:<br><div class='math-formula'>P(D|+) = [P(+|D) · P(D)] / [P(+|D) · P(D) + P(+|Dᶜ) · P(Dᶜ)]<br>= (0.90 × 0.05) / [(0.90 × 0.05) + (0.10 × 0.95)]<br>= 0.045 / [0.045 + 0.095] = 0.045 / 0.140 ≈ 0.3214 (32.1%)</div>"
+      },
+      {
+        id: 4,
+        mod: 'm4',
+        tag: 'Module 4 • K-Means Objective',
+        bloom: 'Bloom: Level 2 (Understand)',
+        q: "Which of the following statements regarding the K-Means clustering algorithm is mathematically ACCURATE?",
+        opts: [
+          "It minimizes the within-cluster sum of squared Euclidean distances (SSE)",
+          "It is guaranteed to converge to the global minimum of the loss function",
+          "It automatically determines the optimal number of clusters K without human tuning",
+          "It produces identical clustering results regardless of centroid initialization"
+        ],
+        correct: 0,
+        solution: "K-Means objective minimizes within-cluster inertia:<br><div class='math-formula'>J = ∑_{k=1}^K ∑_{x_i ∈ C_k} ||x_i - μ_k||²</div>It is an Expectation-Maximization heuristic that guarantees convergence to a <i>local</i> minimum, but can get trapped depending on random initialization."
+      }
+    ];
+
+    let userQuizScore = 0;
+    let answeredQuestions = new Set();
+
+    function renderQuizzes(filter) {
+      const container = document.getElementById('quiz-list-container');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const filtered = filter === 'all' ? quizDataset : quizDataset.filter(q => q.mod === filter);
+
+      filtered.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'quiz-card';
+        div.innerHTML = `
+          <div class="quiz-meta">
+            <span class="quiz-tag">${item.tag}</span>
+            <span class="quiz-bloom">${item.bloom}</span>
+          </div>
+          <div class="quiz-question">${item.q}</div>
+          <div class="quiz-options">
+            ${item.opts.map((opt, idx) => `
+              <button class="quiz-opt" onclick="submitQuizAnswer(this, ${item.id}, ${idx}, ${item.correct})">
+                <span class="opt-letter">${String.fromCharCode(65 + idx)}</span> ${opt}
+              </button>
+            `).join('')}
+          </div>
+          <div id="sol-${item.id}" class="solution-box">
+            <div class="solution-header">✓ Step-by-Step Mathematical Derivation</div>
+            <div class="solution-text">${item.solution}</div>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function submitQuizAnswer(btn, qId, chosenIdx, correctIdx) {
+      const parent = btn.parentElement;
+      const opts = parent.querySelectorAll('.quiz-opt');
+      opts.forEach(o => o.disabled = true);
+
+      const solBox = document.getElementById('sol-' + qId);
+
+      if (chosenIdx === correctIdx) {
+        btn.classList.add('correct');
+        soundManager.playCorrect();
+        if (!answeredQuestions.has(qId)) {
+          userQuizScore += 25;
+          answeredQuestions.add(qId);
+        }
+      } else {
+        btn.classList.add('incorrect');
+        opts[correctIdx].classList.add('correct');
+        soundManager.playWrong();
+        answeredQuestions.add(qId);
+      }
+
+      if (solBox) solBox.classList.add('visible');
+
+      document.getElementById('quiz-score-val').innerText = `${userQuizScore} pts`;
+      document.getElementById('quiz-answered-count').innerText = `${answeredQuestions.size} / ${quizDataset.length}`;
+    }
+
+    function filterQuiz(mod) {
+      document.querySelectorAll('#tab-quizzes .pill-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      renderQuizzes(mod);
+    }
+
+
+    /* ---------------------------------------------------- */
+    /* VIVA VOCE DATA & LOGIC                               */
+    /* ---------------------------------------------------- */
+    const vivaDataset = [
+      {
+        id: 1,
+        title: "Explain the Perceptron Convergence Theorem and why it fails on XOR.",
+        category: "Module 1 • Neural Networks",
+        context: "Examiners want to test understanding of linear separability and the fundamental limitation that triggered the first AI winter.",
+        answer: "The Perceptron Convergence Theorem states that if a dataset is linearly separable by some hyperplane with margin γ > 0, the Perceptron learning algorithm will converge to a separating hyperplane after at most (R/γ)² weight updates, where R is the radius of the smallest sphere enclosing all input vectors. <br><br>The XOR function outputs 1 for inputs (0,1) and (1,0), and 0 for (0,0) and (1,1). Geometrically, no single straight line w₁x₁ + w₂x₂ + b = 0 can separate the opposite diagonal pairs. Attempting to train a single perceptron on XOR results in endless oscillation.",
+        trap: "Examiner asks: 'Can adding a non-linear activation function to a single perceptron allow it to solve XOR?'<br><b>Defense:</b> No! A single perceptron computes z = w^T x + b. Regardless of the activation function g(z), the decision boundary g(z) = 0 is governed entirely by the linear equation w^T x + b = 0, which remains a flat hyperplane. Solving XOR strictly requires at least one hidden layer with non-linear activations."
+      },
+      {
+        id: 2,
+        title: "Differentiate Singular Value Decomposition (SVD) from Eigenvalue Decomposition.",
+        category: "Module 2 • Linear Algebra",
+        context: "High-yield interview question testing theoretical linear algebra fundamentals and numerical computation.",
+        answer: "1. <b>Matrix Dimensions:</b> Eigenvalue Decomposition requires a square n×n matrix (A = Q Λ Q⁻¹). SVD applies to <i>any</i> arbitrary m×n rectangular matrix (X = U Σ V^T).<br>2. <b>Orthogonality:</b> The singular vectors U and V are always guaranteed to form orthonormal bases (U^T U = I, V^T V = I). In contrast, eigenvectors of non-symmetric matrices are generally not orthogonal.<br>3. <b>Singular Values:</b> Singular values σ_i are real and non-negative (σ_i ≥ 0), equal to the square roots of the eigenvalues of X^T X.",
+        trap: "Examiner asks: 'Why is computing SVD preferred in practice over computing eigenvectors of the covariance matrix X^T X?'<br><b>Defense:</b> Explicitly forming the covariance matrix X^T X squares the condition number of the matrix (cond(X^T X) = cond(X)²), leading to severe numerical precision loss in floating-point computation. SVD directly decomposes X without forming X^T X."
+      },
+      {
+        id: 3,
+        title: "Why does Naive Bayes assume 'Conditional Independence', and what is the Zero-Frequency problem?",
+        category: "Module 3 • Probability",
+        context: "Tests understanding of high-dimensional joint probability and Bayesian estimation safeguards.",
+        answer: "Computing the full joint probability P(x₁, x₂, ..., x_d | C_k) requires estimating 2^d parameters, leading to the curse of dimensionality. Naive Bayes makes the simplifying assumption that features are conditionally independent given class label: <div class='math-formula'>P(x₁, ..., x_d | C_k) = ∏_{j=1}^d P(x_j | C_k)</div><br><b>Zero-Frequency Problem:</b> If a particular categorical feature value never occurs with class C_k in the training set, its estimated probability P(x_j | C_k) = 0. Because probabilities are multiplied, this single zero completely zeroes out the entire posterior probability, regardless of all other evidence.",
+        trap: "Examiner asks: 'How do you mathematically prevent the zero-frequency trap?'<br><b>Defense:</b> Apply <b>Laplace Smoothing (Additive Smoothing)</b>: <div class='math-formula'>P(x_j = v | C_k) = (count(x_j = v, C_k) + α) / (count(C_k) + α · |V|)</div>Where α is usually 1, and |V| is the number of distinct values of feature j."
+      },
+      {
+        id: 4,
+        title: "Explain the Bias-Variance Decomposition of Expected Mean Squared Error.",
+        category: "Module 4 • Model Evaluation",
+        context: "Core viva question evaluating statistical learning theory and underfitting/overfitting trade-offs.",
+        answer: "The expected test error of a regression model f̂(x) decomposes mathematically into three distinct components:<br><div class='math-formula'>E[(y - f̂(x))²] = Bias[f̂(x)]² + Var[f̂(x)] + σ²</div><br>1. <b>Bias²:</b> Error from erroneous assumptions in the learning algorithm. High bias implies underfitting (oversimplified model).<br>2. <b>Variance:</b> Sensitivity to fluctuations in the training dataset. High variance implies overfitting (model memorizes noise).<br>3. <b>Irreducible Error (σ²):</b> Inherent noise in the problem domain that cannot be eliminated by any model.",
+        trap: "Examiner asks: 'Does increasing dataset size decrease bias or variance?'<br><b>Defense:</b> Increasing dataset size decreases <b>variance</b> because the parameter estimates stabilize around the expected value. It does not reduce <b>bias</b>, which is constrained by the model's hypothesis space capacity."
+      }
+    ];
+
+    function renderVivaCards(filterText = '') {
+      const container = document.getElementById('viva-cards-container');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const query = filterText.toLowerCase();
+      const filtered = vivaDataset.filter(v => 
+        v.title.toLowerCase().includes(query) || 
+        v.category.toLowerCase().includes(query) ||
+        v.answer.toLowerCase().includes(query)
+      );
+
+      filtered.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'viva-card';
+        div.innerHTML = `
+          <div class="viva-header">
+            <div class="viva-title">${item.title}</div>
+            <span class="viva-badge">${item.category}</span>
+          </div>
+          <p style="font-size:12px; color:var(--text-dim); margin-bottom:12px;">🎯 Examiner Focus: ${item.context}</p>
+          <div class="viva-body">
+            <div class="viva-section">
+              <div class="viva-sec-title" style="color:#38bdf8;">📝 Complete Model Answer</div>
+              <div class="viva-answer-content">${item.answer}</div>
+            </div>
+            <div class="viva-section" style="border-left:3px solid var(--amber-primary);">
+              <div class="viva-sec-title" style="color:var(--amber-primary);">⚠️ Examiner Trap & Candidate Defense</div>
+              <div class="viva-answer-content">${item.trap}</div>
+            </div>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function searchVivaQuestions(text) {
+      renderVivaCards(text);
+    }
+
+    function expandAllViva(expand) {
+      document.querySelectorAll('.viva-body').forEach(el => {
+        el.style.display = expand ? 'flex' : 'none';
+      });
+    }
+
+    /* Canvas Initialization Helpers */
+    function initActiveLabCanvas() {
+      drawPerceptronCanvas();
+      drawKMeansCanvas();
+      drawPCACanvas();
+      updateBayesLab();
+      drawGDCanvas();
+    }
+
+    function initActiveGameCanvas() {
+      drawGame1();
+      drawGame2();
+    }
+
+    // Startup
+    window.addEventListener('DOMContentLoaded', () => {
+      initPerceptronPoints();
+      setupPerceptronClick();
+      resetKMeansPoints();
+      generatePCAData();
+      updateBayesLab();
+      resetGD();
+      renderQuizzes('all');
+      renderVivaCards();
+      startNewEigenMatrix();
+    });
+  </script>
+</body>
+</html>
