@@ -2,7 +2,8 @@
 ## AI & Data Science: Interactive Learning, Algorithm Labs & Viva Voce Platform
 **Course Code:** GNEST305 • **Programme:** B.Tech (2024 Scheme) • **Credits:** 4 (L:T:P = 3:1:0:0)  
 **Author:** Jane Rose (`Janeferdinant`), Assistant Professor, Dept. of Computer Science & Engineering  
-**Live Deployment:** [Deployed on Vercel](https://vercel.com)  
+**Live Deployment:** [https://ktu-ai-learning-platform.vercel.app](https://ktu-ai-learning-platform.vercel.app)  
+**GitHub Repository:** [https://github.com/Janeferdinant/ktu-ai-learning-platform](https://github.com/Janeferdinant/ktu-ai-learning-platform)  
 
 ---
 
